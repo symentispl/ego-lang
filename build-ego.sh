@@ -11,6 +11,4 @@ javac -d out --enable-preview -source 14 -Xlint:preview ${sources[@]}
 
 java --enable-preview -ea -cp target/classes segfault.ego.lexer.Lexer
 
-java --enable-preview -ea -cp target/classes segfault.ego.parser.Parser
-
 jar cvf target/ego-lang.jar -C target/classes .
