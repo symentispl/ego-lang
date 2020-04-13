@@ -2,6 +2,7 @@ package segfault.ego.parser;
 
 import static segfault.ego.parser.Expr.atomExpr;
 import static segfault.ego.parser.Expr.listExpr;
+import static segfault.ego.parser.Expr.stringLiteralExpr;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +44,15 @@ public class Parser {
                         atomExpr("atom")),
                     listExpr())
                 .equals(expr);
+
+        expr = parser.parse(lexer.tokenize("""
+        ((atom (help "Me")))"""));
+        assert listExpr(
+                        listExpr( 
+                            atomExpr("atom"),
+                            listExpr( 
+                                atomExpr("help"),stringLiteralExpr("Me"))))
+                        .equals(expr);
         
     }
 
