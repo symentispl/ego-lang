@@ -1,0 +1,7 @@
+image: openjdk:14-jdk
+
+pipelines:
+  default:
+    - step:
+        script:
+          - ./build-ego.sh
