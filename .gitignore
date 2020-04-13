@@ -1,7 +1,13 @@
 target/
+<<<<<<< HEAD
 .vscode/
 .idea/
 *iml
 .settings/
 .project
 .classpath
+=======
+.idea/
+.vscode/
+*.iml
+>>>>>>> removed visitor

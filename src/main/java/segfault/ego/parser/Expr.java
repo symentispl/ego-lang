@@ -2,6 +2,7 @@ package segfault.ego.parser;
 
 import static java.util.Arrays.asList;
 import static segfault.ego.lexer.Token.atom;
+import static segfault.ego.lexer.Token.string;
 
 public interface Expr {
 
@@ -13,6 +14,8 @@ public interface Expr {
         return new AtomExpr(atom(value));
     }
 
-    void accept(Visitor visitor);
+    public static Expr stringLiteralExpr(String value) {
+        return new StringLiteralExpr(string(value));
+    }
 
 }
