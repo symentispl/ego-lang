@@ -18,13 +18,15 @@
 
 set -eux
 
-mkdir -p target/classes
+target_classes="target/classes"
+
+mkdir -p "$target_classes"
 
 sources=$(find src/main/java -iname "*java" -type f | tr "\n" " ")
 
 # shellcheck disable=SC2068
-javac -d target/classes --enable-preview -source 14 -Xlint:preview ${sources[@]}
+javac -d "$target_classes" --enable-preview -source 14 -Xlint:preview ${sources[@]}
 
-java --enable-preview -ea -cp target/classes segfault.ego.lexer.Lexer
+java --enable-preview -ea -cp "$target_classes" segfault.ego.lexer.Lexer
 
-jar cvf target/ego-lang.jar -C target/classes .
+jar cvf target/ego-lang.jar -C "$target_classes" .
