@@ -1,0 +1,17 @@
+(
+    (print "Hello world")
+
+    (fun greet ((name String))
+        (+ "Hello " name)
+    )
+
+    (print (greet "Jarek"))
+
+    (val name "Jarek")
+
+    (fun greet ((name String))
+        (+ "Hello " name)
+    )
+
+    (print (greet name))
+)
