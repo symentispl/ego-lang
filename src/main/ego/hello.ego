@@ -14,4 +14,6 @@
     )
 
     (print (greet name))
+
+    print (plus 9 (minus 13 4)))
 )

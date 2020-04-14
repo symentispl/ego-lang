@@ -57,7 +57,6 @@ public class Parser {
     }
 
     public Expr parse(List<Token> tokens) {
-
         var iterator = new PushbackIterator<>(tokens.iterator());
         return exprRule(iterator);
     }

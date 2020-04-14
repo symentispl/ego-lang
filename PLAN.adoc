@@ -1,0 +1,5 @@
+#1 lexer
+#2 parser (i szkielet interpretera)
+#3 rewrite AST i w związku z tym FunDecl i ValDecl i FunCall
+#4 scope, enclosing scope i symbol table
+#5 interpreter
