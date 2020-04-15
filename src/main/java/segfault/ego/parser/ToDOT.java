@@ -36,7 +36,7 @@ public class ToDOT implements Visitor {
     private int id;
 
     public static void main(String[] args) {
-        var expr = new Parser().parse(new Lexer().tokenize("(atom (atom (atom \"Hello\")))"));
+        var expr = new Parser().parse(new Lexer().tokenize("(print (plus 1 (minus 2 1)))"));
         ToDOT visitor = new ToDOT();
         out.println("graph {");
         expr.accept(visitor);
