@@ -17,4 +17,10 @@ package segfault.ego.parser;
 
 public interface Visitor {
 
+	void visit(AtomExpr atomExpr);
+
+	void visit(ListExpr listExpr);
+
+	void visit(StringLiteralExpr stringLiteralExpr);
+
 }

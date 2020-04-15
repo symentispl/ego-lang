@@ -16,6 +16,20 @@
 package segfault.ego.parser;
 
 import java.util.List;
+import java.util.Optional;
 
 public record ListExpr(List<Expr> exprs) implements Expr {
+
+    public <T extends Expr> Optional<T> firstOf(Class<T> exprClass) {
+        return exprs.stream().findFirst().filter(f -> exprClass.isInstance(f)).map(f -> exprClass.cast(f));
+    }
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
+    }
+
+    public List<Expr> tail() {
+        return exprs.subList(1, exprs.size());
+    }
 }

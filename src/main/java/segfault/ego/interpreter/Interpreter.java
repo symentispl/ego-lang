@@ -13,27 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package segfault.ego.parser;
+package segfault.ego.interpreter;
 
-import static java.util.Arrays.asList;
-import static segfault.ego.lexer.Token.atom;
-import static segfault.ego.lexer.Token.string;
+import segfault.ego.lexer.Lexer;
+import segfault.ego.parser.Parser;
 
-
-public interface Expr {
-
-    public static ListExpr listExpr(Expr... exprs) {
-        return new ListExpr(asList(exprs));
+public class Interpreter {
+    public static void main(String[] args) {
+        new Interpreter().eval(args[0]);
     }
 
-    public static Expr atomExpr(String value) {
-        return new AtomExpr(atom(value));
-    }
+    public Object eval(String str) {
+        var expr = new Parser().parse(new Lexer().tokenize(str));
 
-    public static Expr stringLiteralExpr(String value) {
-        return new StringLiteralExpr(string(value));
-    }
+        var interpreterVisitor = new InterpreterVisitor();
 
-    void accept(Visitor visitor);
+        expr.accept(interpreterVisitor);
+        return interpreterVisitor.returns();
+    }
 
 }
