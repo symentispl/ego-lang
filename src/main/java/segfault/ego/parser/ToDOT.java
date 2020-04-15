@@ -36,7 +36,27 @@ public class ToDOT implements Visitor {
     private int id;
 
     public static void main(String[] args) {
-        var expr = new Parser().parse(new Lexer().tokenize("(print (plus 1 (minus 2 1)))"));
+        var expr = new Parser().parse(new Lexer().tokenize("""
+        (
+  (type Person (
+      (name String)
+      (surname String)
+      (age Number)))
+
+  (val jarek 
+            (object 
+                (name String)
+                (surname String)
+                (age Number)))
+
+  (fun greet(person Person)
+    ( if (gt person.name 18)
+         (+ "Hello" person.name " " person.surname)
+         (+ "Yo " person.name)))  
+
+  (print( greet jarek))
+)
+        """));
         ToDOT visitor = new ToDOT();
         out.println("graph {");
         expr.accept(visitor);

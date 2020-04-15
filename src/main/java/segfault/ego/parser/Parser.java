@@ -15,15 +15,10 @@
  */
 package segfault.ego.parser;
 
-import static segfault.ego.parser.Expr.atomExpr;
-import static segfault.ego.parser.Expr.listExpr;
-import static segfault.ego.parser.Expr.stringLiteralExpr;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import segfault.ego.lexer.Kind;
-import segfault.ego.lexer.Lexer;
 import segfault.ego.lexer.Token;
 
 public class Parser {
