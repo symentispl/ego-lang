@@ -34,7 +34,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Lexer {
-
     public List<Token> tokenize(String s) {
         var tokens = new ArrayList<Token>();
         var reader = new PushbackReader(new StringReader(s), 64);
