@@ -15,6 +15,7 @@
  */
 package segfault.ego.parser;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import segfault.ego.lexer.Lexer;
@@ -23,31 +24,65 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static segfault.ego.parser.Expr.*;
 
 public class ParserTest {
+    private Lexer lexer;
+    private Parser parser;
+
+    @BeforeEach
+    void beforeAll(){
+        lexer = new Lexer();
+        parser = new Parser();
+    }
 
     @Test
-    public void parse() {
-        var lexer = new Lexer();
-        var parser = new Parser();
-
+    void parse_empty_list() {
         var expr = parser.parse(lexer.tokenize("()"));
-        assertThat(expr).isEqualTo(listExpr());
 
-        expr = parser.parse(lexer.tokenize("(())"));
-        assertThat(expr).isEqualTo(listExpr(listExpr()));
+        assertThat(expr).isEqualTo(
+            listExpr());
+    }
 
-        expr = parser.parse(lexer.tokenize("((atom))"));
-        assertThat(expr).isEqualTo(listExpr(listExpr(atomExpr("atom"))));
+    @Test
+    void parse_empty_nested_list(){
+        var expr = parser.parse(lexer.tokenize("(())"));
 
-        expr = parser.parse(lexer.tokenize("((atom))"));
-        assertThat(expr).isEqualTo(listExpr(listExpr(atomExpr("atom"))));
+        assertThat(expr).isEqualTo(
+            listExpr(
+                listExpr()));
+    }
 
-        expr = parser.parse(lexer.tokenize("((atom)())"));
-        assertThat(expr).isEqualTo(listExpr(listExpr(atomExpr("atom")), listExpr()));
+    @Test
+    void parse_nested_list_with_single_atom(){
+        var expr = parser.parse(lexer.tokenize("((atom))"));
 
-        expr = parser.parse(lexer.tokenize("""
+        assertThat(expr).isEqualTo(
+            listExpr(
+                listExpr(
+                    atomExpr("atom"))));
+    }
+
+
+    @Test
+    void parse_list_of_lists(){
+        var expr = parser.parse(lexer.tokenize("((atom)())"));
+
+        assertThat(expr).isEqualTo(
+            listExpr(
+                listExpr(
+                    atomExpr("atom")), 
+                listExpr()));
+    }
+
+    @Test
+    void parse_list_of_atom_and_nested_list(){
+        var expr = parser.parse(lexer.tokenize("""
                 ((atom (help "Me")))"""));
-        assertThat(expr)
-                .isEqualTo(listExpr(listExpr(atomExpr("atom"), listExpr(atomExpr("help"), stringLiteralExpr("Me")))));
+
+        assertThat(expr).isEqualTo(
+            listExpr(
+                listExpr(
+                    atomExpr("atom"), 
+                    listExpr(atomExpr("help"), 
+                    stringLiteralExpr("Me")))));
     }
 
 }
