@@ -29,7 +29,7 @@ public class Parser {
     }
 
     private Expr listExprRule(PushbackIterator<Token> tokens) {
-        var elements = new ArrayList<Expr>();
+        var elements = new ArrayList<Expr>(); 
 
         while (tokens.hasNext()) {
             var token = tokens.next();
@@ -39,7 +39,7 @@ public class Parser {
             tokens.pushback(token);
             elements.add(exprRule(tokens));
         }
-        throw new IllegalStateException();
+        throw new IllegalStateException("missing closing bracket");
     }
 
     private Expr exprRule(PushbackIterator<Token> tokens) {
