@@ -25,6 +25,7 @@ import java.util.stream.Collectors;
 import segfault.ego.parser.AtomExpr;
 import segfault.ego.parser.Expr;
 import segfault.ego.parser.ListExpr;
+import segfault.ego.parser.NumberLiteralExpr;
 import segfault.ego.parser.StringLiteralExpr;
 import segfault.ego.parser.Visitor;
 
@@ -32,11 +33,10 @@ public class InterpreterVisitor implements Visitor {
 
     private final Stack<Object> stack = new Stack<>();
 
-    private final Map<String, Function<List<Object>, Object>> functions = Map.of(
-        "print", parameters -> {
-                    System.out.println(parameters.stream().map(Object::toString).collect(Collectors.joining(" ")));
-                    return null;
-                });
+    private final Map<String, Function<List<Object>, Object>> functions = Map.of("print", parameters -> {
+        System.out.println(parameters.stream().map(Object::toString).collect(Collectors.joining(" ")));
+        return null;
+    });
 
     @Override
     public void visit(AtomExpr atomExpr) {
@@ -51,6 +51,11 @@ public class InterpreterVisitor implements Visitor {
     @Override
     public void visit(StringLiteralExpr stringLiteralExpr) {
         stack.push(stringLiteralExpr.token().value());
+    }
+
+    @Override
+    public void visit(NumberLiteralExpr numberLiteralExpr) {
+        stack.push(numberLiteralExpr.token().value());
     }
 
     Object returns() {

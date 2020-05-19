@@ -93,6 +93,14 @@ public class ToDOT implements Visitor {
         labels.put( nodeId, nodeLabel( stringLiteralExpr ) );
     }
 
+    @Override
+    public void visit( NumberLiteralExpr numberLiteralExpr) {
+        var parent = nodes.peek();
+        String nodeId = nodeId( numberLiteralExpr );
+        out.println( format( "%s--%s", parent, nodeId ) );
+        labels.put( nodeId, nodeLabel( numberLiteralExpr ) );
+    }
+
     private String nodeId( Expr expr ) {
         return format( "%s%d", expr.getClass().getSimpleName(), id++ );
     }
@@ -106,6 +114,10 @@ public class ToDOT implements Visitor {
     }
 
     private String nodeLabel( StringLiteralExpr expr ) {
+        return format( "%s(%s)", expr.getClass().getSimpleName(), expr.token().value() );
+    }
+
+    private String nodeLabel( NumberLiteralExpr expr ) {
         return format( "%s(%s)", expr.getClass().getSimpleName(), expr.token().value() );
     }
 }

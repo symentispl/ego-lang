@@ -17,8 +17,8 @@ package segfault.ego.parser;
 
 import static java.util.Arrays.asList;
 import static segfault.ego.lexer.Token.atom;
+import static segfault.ego.lexer.Token.number;
 import static segfault.ego.lexer.Token.string;
-
 
 public interface Expr {
 
@@ -32,6 +32,18 @@ public interface Expr {
 
     public static Expr stringLiteralExpr(String value) {
         return new StringLiteralExpr(string(value));
+    }
+
+    public static Expr numberLiteralExpr(int value) {
+        return new NumberLiteralExpr(number(String.valueOf(value)));
+    }
+
+    public static Expr numberLiteralExpr(double value) {
+        return new NumberLiteralExpr(number(String.valueOf(value)));
+    }
+
+    public static Expr numberLiteralExpr(float value) {
+        return new NumberLiteralExpr(number(String.valueOf(value)));
     }
 
     void accept(Visitor visitor);

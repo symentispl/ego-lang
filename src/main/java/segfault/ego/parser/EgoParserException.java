@@ -2,7 +2,9 @@ package segfault.ego.parser;
 
 public class EgoParserException extends RuntimeException{
 
-	public EgoParserException(String message) {
+    private static final long serialVersionUID = 1L;
+
+    public EgoParserException(String message) {
         super(message);
 	}
 

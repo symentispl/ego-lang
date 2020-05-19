@@ -15,14 +15,12 @@
  */
 package segfault.ego.parser;
 
-public interface Visitor {
+import segfault.ego.lexer.Token;
 
-	void visit(AtomExpr atomExpr);
+public record NumberLiteralExpr(Token token) implements Expr {
 
-	void visit(ListExpr listExpr);
-
-	void visit(StringLiteralExpr stringLiteralExpr);
-
-	void visit(NumberLiteralExpr numberLiteralExpr);
-
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
+    }
 }

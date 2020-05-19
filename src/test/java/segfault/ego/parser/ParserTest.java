@@ -34,11 +34,77 @@ public class ParserTest {
     }
 
     @Test
+    void parse_string_literal() {
+        var expr = parser.parse(lexer.tokenize("""
+        "Hello Dave"
+        """));
+
+        assertThat(expr).isEqualTo(
+            stringLiteralExpr("Hello Dave"));
+    }
+
+    @Test
+    void parse_number_literal() {
+        var expr = parser.parse(lexer.tokenize("8"));
+
+        assertThat(expr).isEqualTo(
+            numberLiteralExpr(8));
+    }
+
+    @Test
     void parse_empty_list() {
         var expr = parser.parse(lexer.tokenize("()"));
 
         assertThat(expr).isEqualTo(
             listExpr());
+    }
+
+    @Test
+    void parse_list_of_strings() {
+        var expr = parser.parse(lexer.tokenize("""
+        ("Hello Moto" "Hello Dave" "Goodnight")
+        """));
+
+        assertThat(expr).isEqualTo(
+            listExpr(
+                stringLiteralExpr("Hello Moto"),
+                stringLiteralExpr("Hello Dave"),
+                stringLiteralExpr("Goodnight")));
+    }
+
+    @Test
+    void parse_list_of_numbers() {
+        var expr = parser.parse(lexer.tokenize("(1 2.5 -3)"));
+
+        assertThat(expr).isEqualTo(
+            listExpr(
+                numberLiteralExpr(1),
+                numberLiteralExpr(2.5),
+                numberLiteralExpr(-3)));
+    }
+
+    @Test
+    void parse_list_of_atoms() {
+        var expr = parser.parse(lexer.tokenize("(my luckily atom)"));
+
+        assertThat(expr).isEqualTo(
+            listExpr(
+                atomExpr("my"),
+                atomExpr("luckily"),
+                atomExpr("atom")));
+    }
+    
+    @Test
+    void parse_mixed_list() {
+        var expr = parser.parse(lexer.tokenize("""
+        (atom "Hello Dave" -12.3)
+        """));
+
+        assertThat(expr).isEqualTo(
+            listExpr(
+                atomExpr("atom"),
+                stringLiteralExpr("Hello Dave"),
+                numberLiteralExpr(-12.3)));
     }
 
     @Test
@@ -75,7 +141,8 @@ public class ParserTest {
     @Test
     void parse_list_of_atom_and_nested_list(){
         var expr = parser.parse(lexer.tokenize("""
-                ((atom (help "Me")))"""));
+                ((atom (help "Me")))
+                """));
 
         assertThat(expr).isEqualTo(
             listExpr(
@@ -83,6 +150,20 @@ public class ParserTest {
                     atomExpr("atom"), 
                     listExpr(atomExpr("help"), 
                     stringLiteralExpr("Me")))));
+    }
+
+    @Test
+    void parse_full_sentence(){
+        var expr = parser.parse(lexer.tokenize("""
+                (print (greet "Dave"))
+                """));
+
+        assertThat(expr).isEqualTo(
+            listExpr(
+                atomExpr("print"),
+                listExpr(
+                    atomExpr("greet"), 
+                    stringLiteralExpr("Dave"))));
     }
 
 }

@@ -43,8 +43,9 @@ public class Parser {
     }
 
     private Expr exprRule(PushbackIterator<Token> tokens) {
+        Token token = null;
         while (tokens.hasNext()) {
-            var token = tokens.next();
+            token = tokens.next();
             if (token.kind() == Kind.OPENING_BRACKET) {
                 return listExprRule(tokens);
             }
@@ -57,10 +58,14 @@ public class Parser {
                 return new AtomExpr(token);
             }
 
+            if (token.kind() == Kind.NUMBER) {
+                return new NumberLiteralExpr(token);
+            }
+
             if (token.kind() == Kind.EOF) {
                 // no op;
             }
         }
-        throw new EgoParserException();
+        throw new EgoParserException("Unknown token: " + token);
     }
 }
