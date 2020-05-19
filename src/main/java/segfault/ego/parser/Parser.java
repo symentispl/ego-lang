@@ -39,7 +39,7 @@ public class Parser {
             tokens.pushback(token);
             elements.add(exprRule(tokens));
         }
-        throw new IllegalStateException("missing closing bracket");
+        throw new EgoParserException("missing closing bracket");
     }
 
     private Expr exprRule(PushbackIterator<Token> tokens) {
@@ -61,6 +61,6 @@ public class Parser {
                 // no op;
             }
         }
-        throw new IllegalStateException();
+        throw new EgoParserException();
     }
 }
