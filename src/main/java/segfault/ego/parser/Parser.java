@@ -26,8 +26,9 @@ public class Parser {
     public Expr parse(List<Token> tokens) {
         var iterator = new PushbackIterator<>(tokens.iterator());
         var expr = exprRule(iterator);
-        if(iterator.hasNext()){
-            throw new EgoParserException("Unexpected token: " + iterator.next());
+        Token token;
+        if(iterator.hasNext() && (token = iterator.next()).kind() != Kind.EOF){
+            throw new EgoParserException("Unexpected token: " + token);
         }
         return expr;
     }

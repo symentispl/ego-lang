@@ -3,3 +3,31 @@
 #3 rewrite AST i w związku z tym FunDecl i ValDecl i FunCall
 #4 scope, enclosing scope i symbol table
 #5 interpreter
+
+## parser
+
+. jak reprezentujemy nasz kod?
+
+program w ego to jest poprawane wyrażenie, które zwraca wartość.
+
+wyrażenie to jest
+
+ATOM
+1.2
+"String"
+( ATOM 1.2 "String" (ATOM))
+
+-> drzewo
+
+. czym jest parser 
+
+parser w ogólności transponuje i waliduje strumien tokenów
+na reprezenacje programu ( w naszym przyapdku drzewo wyrażeń )
+
+i nasze drzewo -> AST (Abstract Syntax Tree),
+
+. show me the code
+
+piszemy parser
+
+. pokazujemy drzewa
