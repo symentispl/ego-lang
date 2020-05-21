@@ -25,11 +25,15 @@ public class Parser {
 
     public Expr parse(List<Token> tokens) {
         var iterator = new PushbackIterator<>(tokens.iterator());
-        return exprRule(iterator);
+        var expr = exprRule(iterator);
+        if(iterator.hasNext()){
+            throw new EgoParserException("Unexpected token: " + iterator.next());
+        }
+        return expr;
     }
 
     private Expr listExprRule(PushbackIterator<Token> tokens) {
-        var elements = new ArrayList<Expr>(); 
+        var elements = new ArrayList<Expr>();
 
         while (tokens.hasNext()) {
             var token = tokens.next();
@@ -37,7 +41,10 @@ public class Parser {
                 return new ListExpr(elements);
             }
             tokens.pushback(token);
-            elements.add(exprRule(tokens));
+            var expr = exprRule(tokens);
+            if (expr != null) {
+                elements.add(expr);
+            }
         }
         throw new EgoParserException("missing closing bracket");
     }
@@ -63,9 +70,9 @@ public class Parser {
             }
 
             if (token.kind() == Kind.EOF) {
-                // no op;
+                return null;
             }
         }
-        throw new EgoParserException("Unknown token: " + token);
+        throw new EgoParserException("Unexpected token: " + token);
     }
 }

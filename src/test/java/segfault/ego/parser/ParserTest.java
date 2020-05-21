@@ -19,9 +19,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import segfault.ego.lexer.Lexer;
+import segfault.ego.lexer.Token;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static segfault.ego.parser.Expr.*;
+
+import java.util.List;
 
 public class ParserTest {
     private Lexer lexer;
@@ -166,4 +170,27 @@ public class ParserTest {
                     stringLiteralExpr("Dave"))));
     }
 
+    @Test
+    void parse_unclosed_list(){
+        List<Token> tokens = lexer.tokenize("(1 2 3");
+        
+        Throwable thrown = catchThrowable(() -> parser.parse(tokens));
+
+        assertThat(thrown)
+            .isInstanceOf(EgoParserException.class)
+            .hasMessage("missing closing bracket");
+        
+    }
+
+    @Test
+    void parse_unopened_list(){
+        List<Token> tokens = lexer.tokenize("1 2 3)");
+        
+        Throwable thrown = catchThrowable(() -> parser.parse(tokens));
+
+        assertThat(thrown)
+            .isInstanceOf(EgoParserException.class)
+            .hasMessage("Unexpected token: Token[kind=NUMBER, value=2]");
+
+    }
 }
