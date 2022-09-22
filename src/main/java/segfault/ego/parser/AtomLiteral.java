@@ -13,14 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package segfault.ego.lexer;
+package segfault.ego.parser;
 
-public enum Kind
-{
-    CLOSING_BRACKET,
-    OPENING_BRACKET,
-    ATOM,
-    STRING,
-    EOF, 
-    NUMBER
+import java.lang.reflect.Type;
+
+import segfault.ego.lexer.Token;
+import segfault.ego.types.Atom;
+
+public record AtomLiteral(Token token) implements Expr<Visitor> {
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
+    }
+
+    @Override
+    public Type type() {
+        return Atom.class;
+    }
+
+    public String value() {
+        return token.value();
+    }
 }

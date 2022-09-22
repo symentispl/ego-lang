@@ -13,14 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package segfault.ego.lexer;
+package segfault.ego.parser;
 
-public enum Kind
+public interface RewriteVisitor extends Visitor
 {
-    CLOSING_BRACKET,
-    OPENING_BRACKET,
-    ATOM,
-    STRING,
-    EOF, 
-    NUMBER
+    void visit( FunCall funCall );
+
+    void visit( ValDecl valDecl );
+
+    void visit( ObjectLiteral objectLiteral);
+
+    void visit( ObjectMember field);
+
+    void visit( FunDecl funDecl);
+
+    void visit( Ref ref );
+
+    void visit( Lambda ref );
+
 }

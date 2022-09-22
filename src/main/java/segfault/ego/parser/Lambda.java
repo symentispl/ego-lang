@@ -13,14 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package segfault.ego.lexer;
+package segfault.ego.parser;
 
-public enum Kind
-{
-    CLOSING_BRACKET,
-    OPENING_BRACKET,
-    ATOM,
-    STRING,
-    EOF, 
-    NUMBER
+import java.lang.reflect.Type;
+import java.util.List;
+import java.util.function.Function;
+
+public record Lambda(List<ParameterDecl> paramsDecl, Type returnType, Expr body) implements Expr<RewriteVisitor> {
+
+    @Override
+    public Type type() {
+        return Function.class;
+    }
+
+    @Override
+    public void accept(RewriteVisitor visitor) {
+        visitor.visit(this);
+    }
+
 }

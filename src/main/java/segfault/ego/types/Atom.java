@@ -13,14 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package segfault.ego.lexer;
+package segfault.ego.types;
 
-public enum Kind
-{
-    CLOSING_BRACKET,
-    OPENING_BRACKET,
-    ATOM,
-    STRING,
-    EOF, 
-    NUMBER
+public record Atom(String atom) {
 }

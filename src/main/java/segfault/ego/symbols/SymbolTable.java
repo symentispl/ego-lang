@@ -13,14 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package segfault.ego.lexer;
+package segfault.ego.symbols;
 
-public enum Kind
-{
-    CLOSING_BRACKET,
-    OPENING_BRACKET,
-    ATOM,
-    STRING,
-    EOF, 
-    NUMBER
+import java.util.HashMap;
+import java.util.Map;
+
+public class SymbolTable {
+
+    private final Map<String, Symbol> symbols = new HashMap<>();
+
+    public void add(Symbol symbol) {
+        symbols.put(symbol.name(), symbol);
+    }
+
+	public Symbol get(String name) {
+		return symbols.get(name);
+	}
+
 }

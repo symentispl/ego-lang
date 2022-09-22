@@ -13,14 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package segfault.ego.lexer;
+package segfault.ego.parser;
 
-public enum Kind
+import segfault.ego.symbols.ValSymbol;
+
+import java.lang.reflect.Type;
+
+public record ValDecl(ValSymbol symbol, Expr expr) implements Expr<RewriteVisitor>
 {
-    CLOSING_BRACKET,
-    OPENING_BRACKET,
-    ATOM,
-    STRING,
-    EOF, 
-    NUMBER
+    @Override
+    public void accept( RewriteVisitor visitor )
+    {
+        visitor.visit( this );
+    }
+
+    @Override
+    public Type type(){
+        return symbol.type();
+    }
 }

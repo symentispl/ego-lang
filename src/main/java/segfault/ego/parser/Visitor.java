@@ -13,14 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package segfault.ego.lexer;
+package segfault.ego.parser;
 
-public enum Kind
-{
-    CLOSING_BRACKET,
-    OPENING_BRACKET,
-    ATOM,
-    STRING,
-    EOF, 
-    NUMBER
+public interface Visitor {
+
+    void visit(AtomLiteral atomExpr);
+
+    void visit(ListLiteral listExpr);
+
+    void visit(StringLiteral stringLiteralExpr);
+
+	void visit(NumberLiteral numberLiteral);
 }

@@ -13,14 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package segfault.ego.lexer;
+package segfault.ego.parser;
 
-public enum Kind
-{
-    CLOSING_BRACKET,
-    OPENING_BRACKET,
-    ATOM,
-    STRING,
-    EOF, 
-    NUMBER
+import segfault.ego.symbols.*;
+
+public interface Scope {
+
+    Scope getEnclosingScope();
+
+    public Symbol resolve(String name);
+    
+	public void define(Symbol symbol);
+
 }

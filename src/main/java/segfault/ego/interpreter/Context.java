@@ -13,14 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package segfault.ego.lexer;
+package segfault.ego.interpreter;
 
-public enum Kind
-{
-    CLOSING_BRACKET,
-    OPENING_BRACKET,
-    ATOM,
-    STRING,
-    EOF, 
-    NUMBER
+import segfault.ego.symbols.Symbol;
+
+public interface Context {
+
+    void set( Symbol symbol, Object object );
+
+    Object get( Symbol symbol );
+
+    public Object get(String name);
 }

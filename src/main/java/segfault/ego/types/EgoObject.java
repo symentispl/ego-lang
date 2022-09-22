@@ -13,14 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package segfault.ego.lexer;
+package segfault.ego.types;
 
-public enum Kind
-{
-    CLOSING_BRACKET,
-    OPENING_BRACKET,
-    ATOM,
-    STRING,
-    EOF, 
-    NUMBER
+import java.util.HashMap;
+
+public record EgoObject(HashMap<String,Object> members) {
+
+
+    public Object get(String property){
+        return members.get(property);
+    }
+
+    @Override
+    public String toString() {
+        return members.toString();
+    }
 }

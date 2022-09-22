@@ -13,14 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package segfault.ego.lexer;
+package segfault.ego.parser;
 
-public enum Kind
-{
-    CLOSING_BRACKET,
-    OPENING_BRACKET,
-    ATOM,
-    STRING,
-    EOF, 
-    NUMBER
+import java.lang.reflect.Type;
+import java.util.List;
+
+import segfault.ego.symbols.FunctionSymbol;
+import segfault.ego.symbols.Symbol;
+
+public record FunCall(Symbol symbol, List<Expr> parameters) implements Expr<RewriteVisitor> {
+
+    @Override
+    public void accept(RewriteVisitor visitor) {
+        visitor.visit(this);
+    }
+
+    @Override
+    public Type type() {
+        // TODO WARNING: fix me, now!!!
+        return symbol.type();
+    }
+
+    public String name() {
+        return symbol.name();
+    }
 }
