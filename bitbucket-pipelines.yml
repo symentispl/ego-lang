@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-image: openjdk:14-jdk
+image: eclipse-temurin:17
 
 pipelines:
   default:
