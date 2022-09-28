@@ -39,6 +39,21 @@
             <groupId>io.github.classgraph</groupId>
             <artifactId>classgraph</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.11.0</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -54,8 +69,11 @@
                             <goal>copy-dependencies</goal>
                         </goals>
                         <configuration>
-                            <excludeArtifactIds>commons-collections4,commons-lang3,jline
-                            </excludeArtifactIds>
+                            <!--
+                                excluding automatic modules from dependencies, as they don't work with jlink,
+                                we will process it later with moditec plugin
+                            -->
+                            <excludeArtifactIds>commons-collections4,commons-lang3,commons-io,jline</excludeArtifactIds>
                         </configuration>
                     </execution>
                 </executions>
@@ -82,8 +100,8 @@
                                     </artifact>
                                     <moduleInfoSource>
                                         module org.apache.commons.collections4 {
-                                            exports org.apache.commons.collections4;
-                                            exports org.apache.commons.collections4.iterators;
+                                        exports org.apache.commons.collections4;
+                                        exports org.apache.commons.collections4.iterators;
                                         }
                                     </moduleInfoSource>
                                 </module>
@@ -95,7 +113,18 @@
                                     </artifact>
                                     <moduleInfoSource>
                                         module org.apache.commons.lang3 {
-                                            exports org.apache.commons.lang3;
+                                        exports org.apache.commons.lang3;
+                                        }
+                                    </moduleInfoSource>
+                                </module>
+                                <module>
+                                    <artifact>
+                                        <groupId>commons-io</groupId>
+                                        <artifactId>commons-io</artifactId>
+                                    </artifact>
+                                    <moduleInfoSource>
+                                        module org.apache.commons.io {
+                                            exports org.apache.commons.io.input;
                                         }
                                     </moduleInfoSource>
                                 </module>
@@ -107,9 +136,11 @@
                                     </artifact>
                                     <moduleInfoSource>
                                         module org.jline {
-                                            requires java.logging;
-                                            exports org.jline.terminal;
-                                            exports org.jline.reader;
+                                        requires java.logging;
+                                        exports org.jline.terminal;
+                                        exports org.jline.reader;
+                                        exports org.jline.reader.impl;
+                                        exports org.jline.utils;
                                         }
                                     </moduleInfoSource>
                                 </module>
@@ -142,7 +173,42 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>jlink-image-enable-preview</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <replaceregexp file="${project.build.directory}/jlink-image/bin/ego"
+                                               match="^JLINK_VM_OPTIONS="
+                                               replace="JLINK_VM_OPTIONS=--enable-preview"
+                                               byline="true"/>
+                                <chmod file="${project.build.directory}/jlink-image/bin/ego" perm="ug+rwx"/>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>3.0.0-M7</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
-
 </project>

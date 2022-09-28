@@ -16,6 +16,8 @@
 package segfault.ego.repl;
 
 import com.github.rvesse.airline.annotations.Command;
+import org.apache.commons.io.input.CloseShieldInputStream;
+import org.jline.reader.EndOfFileException;
 import org.jline.reader.LineReader;
 import org.jline.reader.LineReaderBuilder;
 import org.jline.terminal.Terminal;
@@ -29,7 +31,9 @@ import segfault.ego.parser.Parser;
 import segfault.ego.types.Atom;
 import segfault.ego.types.None;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 @Command( name = "repl" )
 public class REPL implements Runnable
@@ -47,15 +51,23 @@ public class REPL implements Runnable
 
         try
         {
-            terminal = TerminalBuilder.builder().build();
-            terminal.writer().println( "Welcome to Ego version unknown" );
-            linereader = LineReaderBuilder.builder().terminal( terminal ).build();
             lexer = new Lexer();
             var builtInScope = new BuiltInScope();
             var globalScope = new GlobalScope( builtInScope );
             parser = new Parser( globalScope );
             context = GlobalContext.defaulGlobalContext( globalScope );
             interpreter = new Interpreter( context, lexer, parser );
+            if ( System.console() == null ) // a trick to find out if stdin is a terminal
+            {
+                evalStdinAndMaybeExit();
+            }
+
+            terminal = TerminalBuilder.builder().build();
+            terminal.writer().println("Welcome to Ego version unknown");
+            linereader = LineReaderBuilder.builder()
+                                          .appName( "ego" )
+                                          .terminal( terminal )
+                                          .build();
         }
         catch ( IOException e )
         {
@@ -67,31 +79,36 @@ public class REPL implements Runnable
     @Override
     public void run()
     {
-        while ( true )
+        var run = true;
+        while ( run )
         {
-            print( eval( read() ) );
+            var signal = read();
+            switch ( signal )
+            {
+            case Read r:
+                print( eval( r.line() ) );
+                continue;
+            case Exit ignored:
+                run = false;
+            }
         }
     }
 
-    private String read()
+    private Signal read()
     {
-        return linereader.readLine( "> " );
+        try
+        {
+            return new Read( linereader.readLine( "> " ) );
+        }
+        catch ( EndOfFileException e )
+        {
+            return new Exit();
+        }
     }
 
     private void print( Object value )
     {
-        if ( value instanceof Atom )
-        {
-            terminal.writer().format( "%s\n", context.get( ((Atom) value).atom() ) );
-        }
-        else if ( value instanceof String )
-        {
-            terminal.writer().format( "\"%s\"\n", value );
-        }
-        else if ( value != None.none )
-        {
-            terminal.writer().format( "%s\n", value );
-        }
+        terminal.writer().format( format( value ) );
     }
 
     private Object eval( String str )
@@ -104,5 +121,35 @@ public class REPL implements Runnable
         {
             return "error: " + e.getMessage();
         }
+    }
+
+    private String format( Object value )
+    {
+        if ( value instanceof Atom )
+        {
+            return String.format( "%s\n", context.get( ((Atom) value).atom() ) );
+        }
+        else if ( value instanceof String )
+        {
+            return String.format( "\"%s\"\n", value );
+        }
+        else if ( value != None.none )
+        {
+            return String.format( "%s\n", value );
+        }
+        else
+        {
+            return "none";
+        }
+    }
+
+    private void evalStdinAndMaybeExit() throws IOException
+    {
+        try ( var reader = new BufferedReader( new InputStreamReader( CloseShieldInputStream.wrap( System.in ) ) ) )
+        {
+            reader.lines().
+                  forEach( line -> System.out.print( format( eval( line ) ) ) );
+        }
+        System.exit( 0 );
     }
 }

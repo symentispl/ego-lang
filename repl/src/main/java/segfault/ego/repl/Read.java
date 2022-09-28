@@ -13,11 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-module segfault.ego.repl {
-    requires segfault.ego.lang;
-    requires com.github.rvesse.airline;
-    requires org.jline;
-    requires org.apache.commons.io;
+package segfault.ego.repl;
 
-    opens segfault.ego.repl to com.github.rvesse.airline;
+public final class Read implements Signal
+{
+    private final String line;
+
+    public Read( String line )
+    {
+        this.line = line;
+    }
+
+    public String line()
+    {
+        return line;
+    }
 }

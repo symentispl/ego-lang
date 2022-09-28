@@ -13,6 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-module segault.ego.bin {
-    requires segfault.ego.repl;
+package segfault.ego.repl;
+
+public final class Exit implements Signal
+{
 }
