@@ -33,7 +33,7 @@ public class InterpreterTest {
     public void eval_val_print() {
         var builtInScope = new BuiltInScope();
         var globalScope = new GlobalScope(builtInScope);
-        var interpreter = new Interpreter(GlobalContext.defaulGlobalContext(globalScope), new Lexer(), new Parser());
+        var interpreter = new Interpreter(globalScope, new Lexer(), new Parser());
         var result = interpreter.eval(
                 """
                                                ((val a "Hello")
@@ -46,7 +46,7 @@ public class InterpreterTest {
     public void eval_val() {
         var builtInScope = new BuiltInScope();
         var globalScope = new GlobalScope(builtInScope);
-        var interpreter = new Interpreter(GlobalContext.defaulGlobalContext(globalScope), new Lexer(), new Parser());
+        var interpreter = new Interpreter(globalScope, new Lexer(), new Parser());
         var result = interpreter.eval(
                 """
                                                ((val a "Hello")
@@ -59,7 +59,7 @@ public class InterpreterTest {
     public void eval_string_concat() {
         var builtInScope = new BuiltInScope();
         var globalScope = new GlobalScope(builtInScope);
-        var interpreter = new Interpreter(GlobalContext.defaulGlobalContext(globalScope), new Lexer(), new Parser());
+        var interpreter = new Interpreter(globalScope, new Lexer(), new Parser());
         var result = interpreter.eval(
                 """
                                                (+ "Hello " "Wiktor"))
@@ -71,7 +71,7 @@ public class InterpreterTest {
     public void eval_lambda() {
         var builtInScope = new BuiltInScope();
         var globalScope = new GlobalScope(builtInScope);
-        var interpreter = new Interpreter(GlobalContext.defaulGlobalContext(globalScope), new Lexer(), new Parser());
+        var interpreter = new Interpreter(globalScope, new Lexer(), new Parser());
         var result = interpreter.eval(
                 """
                                                (val greet2 (lambda ((name String)) (returns String) (+ "Hello " name) ))
@@ -85,7 +85,7 @@ public class InterpreterTest {
     public void fun_decl() {
         var builtInScope = new BuiltInScope();
         var globalScope = new GlobalScope(builtInScope);
-        var interpreter = new Interpreter(GlobalContext.defaulGlobalContext(globalScope), new Lexer(), new Parser());
+        var interpreter = new Interpreter(globalScope, new Lexer(), new Parser());
         var result = interpreter.eval(
                 """
                                                (fun greet2  ((name String)) (returns String) (+ "Hello " name) )
@@ -100,7 +100,7 @@ public class InterpreterTest {
     public void inline_lambda() {
         var builtInScope = new BuiltInScope();
         var globalScope = new GlobalScope(builtInScope);
-        var interpreter = new Interpreter(GlobalContext.defaulGlobalContext(globalScope), new Lexer(), new Parser());
+        var interpreter = new Interpreter(globalScope, new Lexer(), new Parser());
         var result = interpreter.eval(
                 """
                                                (

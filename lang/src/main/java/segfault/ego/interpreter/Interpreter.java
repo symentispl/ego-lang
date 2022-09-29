@@ -16,24 +16,27 @@
 package segfault.ego.interpreter;
 
 import segfault.ego.lexer.Lexer;
-import segfault.ego.parser.InterpretEgoAlg;
+import segfault.ego.parser.GlobalScope;
 import segfault.ego.parser.Parser;
+import segfault.ego.parser.RewritingEgoAlg;
 
 public class Interpreter {
 
+    private final GlobalScope globalScope;
     private final Lexer lexer;
     private final Parser parser;
-    private final GlobalContext context;
 
-    public Interpreter(GlobalContext context, Lexer lexer, Parser parser) {
-        this.context = context;
+    public Interpreter(GlobalScope globalScope, Lexer lexer, Parser parser) {
+        this.globalScope = globalScope;
         this.lexer = lexer;
         this.parser = parser;
     }
 
     public Object eval(String str) {
         var expr = parser.parse(lexer.tokenize(str));
-        var interpretEgoAlg = new InterpretEgoAlg();
+        var rewritingEgoAlg = new RewritingEgoAlg(globalScope);
+        expr = rewritingEgoAlg.rewrite(expr);
+        var interpretEgoAlg = new InterpreterEgoAlg(globalScope);
         return interpretEgoAlg.eval(expr);
     }
 }

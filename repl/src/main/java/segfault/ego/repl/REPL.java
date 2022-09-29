@@ -25,7 +25,6 @@ import org.jline.reader.LineReader;
 import org.jline.reader.LineReaderBuilder;
 import org.jline.terminal.Terminal;
 import org.jline.terminal.TerminalBuilder;
-import segfault.ego.interpreter.GlobalContext;
 import segfault.ego.interpreter.Interpreter;
 import segfault.ego.lexer.Lexer;
 import segfault.ego.parser.BuiltInScope;
@@ -37,19 +36,17 @@ import segfault.ego.types.None;
 @Command(name = "repl")
 public class REPL implements Runnable {
 
-    private Interpreter interpreter;
-    private GlobalContext context;
+    private final GlobalScope globalScope;
+    private final Interpreter interpreter;
     private Terminal terminal;
     private LineReader linereader;
 
     public REPL() {
+        Lexer lexer = new Lexer();
+        Parser parser = new Parser();
+        globalScope = new GlobalScope(new BuiltInScope());
+        interpreter = new Interpreter(globalScope, lexer, parser);
         try {
-            Lexer lexer = new Lexer();
-            var builtInScope = new BuiltInScope();
-            var globalScope = new GlobalScope(builtInScope);
-            Parser parser = new Parser();
-            context = GlobalContext.defaulGlobalContext(globalScope);
-            interpreter = new Interpreter(context, lexer, parser);
             if (System.console() == null) // a trick to find out if stdin is a terminal
             {
                 evalStdinAndMaybeExit();
@@ -101,7 +98,7 @@ public class REPL implements Runnable {
 
     private String format(Object value) {
         if (value instanceof Atom) {
-            return String.format("%s\n", context.get(((Atom) value).atom()));
+            return String.format("%s\n", globalScope.get(((Atom) value).atom()));
         } else if (value instanceof String) {
             return String.format("\"%s\"\n", value);
         } else if (value != None.none) {

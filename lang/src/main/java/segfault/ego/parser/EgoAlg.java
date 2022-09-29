@@ -15,13 +15,7 @@
  */
 package segfault.ego.parser;
 
-public interface EgoAlg<L, A, N, S> {
+public interface EgoAlg<L, A, N, S, F> extends SexprAlg<L, A, N, S> {
 
-    L listLiteral(ListLiteral literal);
-
-    A atomLiteral(AtomLiteral a);
-
-    N numberLiteral(NumberLiteral n);
-
-    S stringLiteral(StringLiteral s);
+    F funCall(FunCall funCall);
 }

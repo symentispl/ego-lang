@@ -21,7 +21,7 @@ public interface Scope {
 
     Scope getEnclosingScope();
 
-    public Symbol resolve(String name);
+    Symbol resolve(String name);
 
-    public void define(Symbol symbol);
+    void define(Symbol symbol);
 }

@@ -46,4 +46,8 @@ public class GlobalScope implements Scope {
     public Scope getEnclosingScope() {
         return builtInScope;
     }
+
+    public Object get(String atom) {
+        return symbolTable.get(atom);
+    }
 }

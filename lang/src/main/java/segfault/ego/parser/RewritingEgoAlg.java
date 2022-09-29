@@ -15,32 +15,39 @@
  */
 package segfault.ego.parser;
 
-import static java.util.stream.Collectors.toList;
+import segfault.ego.symbols.FunctionSymbol;
 
-import java.util.List;
-import segfault.ego.types.Atom;
+public class RewritingEgoAlg implements SexprAlg<Expr, AtomLiteral, NumberLiteral, StringLiteral> {
 
-public class InterpretEgoAlg implements EgoAlg<List<?>, Atom, Number, String> {
+    private final Scope scope;
+
+    public RewritingEgoAlg(Scope scope) {
+        this.scope = scope;
+    }
 
     @Override
-    public List<?> listLiteral(ListLiteral literal) {
-
-        return literal.exprs().stream().map(this::eval).collect(toList());
+    public Expr listLiteral(ListLiteral literal) {
+        return literal.firstOf(AtomLiteral.class)
+                .<Expr>map(e -> new FunCall((FunctionSymbol) scope.resolve(e.atom()), literal.tail()))
+                .orElse(literal);
     }
 
-    public Number numberLiteral(NumberLiteral n) {
-        return n.number();
+    @Override
+    public AtomLiteral atomLiteral(AtomLiteral a) {
+        return a;
     }
 
-    public Atom atomLiteral(AtomLiteral a) {
-        return new Atom(a.atom());
+    @Override
+    public NumberLiteral numberLiteral(NumberLiteral n) {
+        return n;
     }
 
-    public String stringLiteral(StringLiteral s) {
-        return s.string();
+    @Override
+    public StringLiteral stringLiteral(StringLiteral s) {
+        return s;
     }
 
-    public Object eval(Expr expr) {
+    public Expr rewrite(Expr expr) {
         return switch (expr) {
             case AtomLiteral a -> atomLiteral(a);
             case NumberLiteral n -> numberLiteral(n);

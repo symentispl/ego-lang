@@ -13,18 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package segfault.ego.types;
+package segfault.ego.sourcegen;
 
-import java.util.HashMap;
+import static segfault.ego.parser.Expr.atomExpr;
 
-public record EgoObject(HashMap<String, Object> members) {
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import segfault.ego.parser.Expr;
 
-    public Object get(String property) {
-        return members.get(property);
-    }
+@Disabled
+class SourceGenSexprAlgTest {
 
-    @Override
-    public String toString() {
-        return members.toString();
+    @Test
+    void sourceGenEmpty() {
+        var algo = new SourceGenEgoAlg();
+        algo.sourceGen(Expr.listExpr(atomExpr("a")));
     }
 }

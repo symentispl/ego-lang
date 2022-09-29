@@ -17,9 +17,9 @@ package segfault.ego.parser;
 
 import java.lang.reflect.Type;
 import java.util.List;
-import segfault.ego.symbols.Symbol;
+import segfault.ego.symbols.FunctionSymbol;
 
-public record FunCall(Symbol symbol, List<Expr> parameters) implements Expr {
+public record FunCall(FunctionSymbol symbol, List<Expr> parameters) implements Expr {
 
     @Override
     public Type type() {

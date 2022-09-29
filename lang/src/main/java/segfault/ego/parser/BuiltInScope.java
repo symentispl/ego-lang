@@ -15,51 +15,55 @@
  */
 package segfault.ego.parser;
 
-import java.util.List;
 import segfault.ego.symbols.FunctionSymbol;
 import segfault.ego.symbols.ParameterSymbol;
 import segfault.ego.symbols.Symbol;
 import segfault.ego.symbols.SymbolTable;
-import segfault.ego.symbols.TypeSymbol;
-import segfault.ego.types.EgoObject;
 import segfault.ego.types.FunctionType;
 import segfault.ego.types.None;
+
+import java.io.PrintStream;
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
+import java.util.List;
+
+import static java.lang.invoke.MethodHandles.constant;
+import static java.lang.invoke.MethodHandles.filterArguments;
+import static java.lang.invoke.MethodHandles.filterReturnValue;
+import static java.lang.invoke.MethodType.methodType;
 
 public class BuiltInScope implements Scope {
 
     private final SymbolTable symbolTable = new SymbolTable();
 
     public BuiltInScope() {
-        symbolTable.add(new TypeSymbol("String", String.class));
-        symbolTable.add(new FunctionSymbol(
-                "print", new FunctionType(List.of(new ParameterSymbol("str", String.class)), None.class)));
-        // symbolTable.add(new FunctionSymbol("greet", new FunctionType( List.of(
-        // String.class), String.class)));
-        symbolTable.add(new FunctionSymbol(
-                "+",
-                new FunctionType(
-                        List.of(new ParameterSymbol("op1", String.class), new ParameterSymbol("op2", String.class)),
-                        String.class)));
-        symbolTable.add(new FunctionSymbol(
-                "get",
-                new FunctionType(
-                        List.of(
-                                new ParameterSymbol("property", String.class),
-                                new ParameterSymbol("obj", EgoObject.class)),
-                        Object.class)));
-        symbolTable.add(new FunctionSymbol(
-                "gt",
-                new FunctionType(
-                        List.of(new ParameterSymbol("op1", Number.class), new ParameterSymbol("op2", Number.class)),
-                        Boolean.class)));
-        symbolTable.add(new FunctionSymbol(
-                "if",
-                new FunctionType(
-                        List.of(
-                                new ParameterSymbol("predicate", Boolean.class),
-                                new ParameterSymbol("ifThen", Object.class),
-                                new ParameterSymbol("else", Object.class)),
-                        Object.class)));
+        var lookup = MethodHandles.lookup();
+        try {
+            symbolTable.add(new FunctionSymbol(
+                    "print",
+                    new FunctionType(List.of(new ParameterSymbol("str", String.class)), None.class),
+                    printFunctionMethodHandler(lookup)));
+        } catch (NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+        ;
+    }
+
+    /*
+     * print builtin function
+     * what happens is, we take System.out.println(String);void and we adapt it to print(Object);None function in
+     * Ego
+     */
+    private static MethodHandle printFunctionMethodHandler(MethodHandles.Lookup lookup)
+            throws NoSuchMethodException, IllegalAccessException {
+        var methodHandle = lookup.findVirtual(PrintStream.class, "println", methodType(Void.TYPE, String.class));
+        methodHandle = methodHandle.bindTo(System.out);
+        methodHandle = filterReturnValue(methodHandle, constant(None.class, None.none));
+        methodHandle = filterArguments(
+                methodHandle, 0, lookup.findVirtual(Object.class, "toString", methodType(String.class)));
+        return methodHandle;
     }
 
     @Override

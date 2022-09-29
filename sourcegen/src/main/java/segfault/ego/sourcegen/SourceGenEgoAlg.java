@@ -23,21 +23,23 @@ import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterSpec;
 import com.squareup.javapoet.TypeSpec;
-import java.io.IOException;
 import javax.lang.model.element.Modifier;
 import segfault.ego.parser.AtomLiteral;
-import segfault.ego.parser.EgoAlg;
 import segfault.ego.parser.Expr;
 import segfault.ego.parser.ListLiteral;
 import segfault.ego.parser.NumberLiteral;
+import segfault.ego.parser.SexprAlg;
 import segfault.ego.parser.StringLiteral;
 
-public class SourceGenEgoAlgo implements EgoAlg<String, String, String, String> {
+public class SourceGenEgoAlg implements SexprAlg<String, String, String, String> {
     @Override
     public String listLiteral(ListLiteral literal) {
         var list = literal.exprs().stream()
                 .map(expr -> switch (expr) {
                     case AtomLiteral a -> atomLiteral(a);
+                    case NumberLiteral n -> numberLiteral(n);
+                    case StringLiteral s -> stringLiteral(s);
+                    case ListLiteral l -> listLiteral(l);
                     default -> throw new IllegalStateException("Unexpected value: " + expr);
                 })
                 .collect(joining(","));
@@ -57,10 +59,12 @@ public class SourceGenEgoAlgo implements EgoAlg<String, String, String, String> 
 
     @Override
     public String stringLiteral(StringLiteral s) {
-        return null;
+        return String.format("""
+                "%s"
+                """, s.string());
     }
 
-    Object sourceGen(ListLiteral literal) {
+    public JavaFile sourceGen(ListLiteral literal) {
         var javaClass = TypeSpec.classBuilder("main")
                 .addMethod(MethodSpec.methodBuilder("main")
                         .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
@@ -71,12 +75,8 @@ public class SourceGenEgoAlgo implements EgoAlg<String, String, String, String> 
                         .build())
                 .build();
 
-        var javaFile = JavaFile.builder("segfault.example", javaClass).addStaticImport(Expr.class, "atom");
-        try {
-            javaFile.build().writeTo(System.out);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        return javaFile;
+        return JavaFile.builder("segfault.example", javaClass)
+                .addStaticImport(Expr.class, "atom")
+                .build();
     }
 }

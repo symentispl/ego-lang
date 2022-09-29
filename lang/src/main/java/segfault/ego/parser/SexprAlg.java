@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright © 2020 Segfault (wiktor@segfault.events,jarek@segfault.events)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,20 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package segfault.ego.sourcegen;
+package segfault.ego.parser;
 
-import static segfault.ego.parser.Expr.atomExpr;
+public interface SexprAlg<L, A, N, S> {
 
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
-import segfault.ego.parser.Expr;
+    L listLiteral(ListLiteral literal);
 
-@Disabled
-class SourceGenEgoAlgoTest {
+    A atomLiteral(AtomLiteral a);
 
-    @Test
-    void sourceGenEmpty() {
-        var algo = new SourceGenEgoAlgo();
-        algo.sourceGen(Expr.listExpr(atomExpr("a")));
-    }
+    N numberLiteral(NumberLiteral n);
+
+    S stringLiteral(StringLiteral s);
 }
