@@ -26,8 +26,7 @@ public class SymbolTable {
         symbols.put(symbol.name(), symbol);
     }
 
-	public Symbol get(String name) {
-		return symbols.get(name);
-	}
-
+    public Symbol get(String name) {
+        return symbols.get(name);
+    }
 }

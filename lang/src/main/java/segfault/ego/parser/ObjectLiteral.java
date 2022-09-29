@@ -18,10 +18,4 @@ package segfault.ego.parser;
 import java.lang.reflect.Type;
 import java.util.List;
 
-public record ObjectLiteral(List<ObjectMember> members, Type type) implements Expr<RewriteVisitor> {
-    @Override
-    public void accept(RewriteVisitor visitor) {
-        visitor.visit(this);
-    }
-
-}
+public record ObjectLiteral(List<ObjectMember> members, Type type) implements Expr {}

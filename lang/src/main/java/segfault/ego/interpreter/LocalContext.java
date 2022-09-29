@@ -17,35 +17,33 @@ package segfault.ego.interpreter;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import segfault.ego.symbols.Symbol;
 
-public class LocalContext implements Context{
+public class LocalContext implements Context {
 
     private final Context parentContext;
-    private final Map<Symbol,Object> context = new HashMap<>();
+    private final Map<Symbol, Object> context = new HashMap<>();
 
     public LocalContext(Context parentContext) {
         this.parentContext = parentContext;
     }
 
-	@Override
-	public void set(Symbol symbol, Object object) {
-		context.put(symbol, object);
-	}
-
-	@Override
-	public Object get(Symbol symbol) {
-        Object object = context.get(symbol);
-        if(object == null && parentContext!=null){
-            return parentContext.get(symbol);
-        }
-		return object;
-	}
-
+    @Override
+    public void set(Symbol symbol, Object object) {
+        context.put(symbol, object);
+    }
 
     @Override
-    public Object get(String name){
+    public Object get(Symbol symbol) {
+        Object object = context.get(symbol);
+        if (object == null && parentContext != null) {
+            return parentContext.get(symbol);
+        }
+        return object;
+    }
+
+    @Override
+    public Object get(String name) {
         throw new UnsupportedOperationException("");
     }
 }

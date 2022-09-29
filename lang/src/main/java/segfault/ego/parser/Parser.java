@@ -17,27 +17,14 @@ package segfault.ego.parser;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import segfault.ego.lexer.Kind;
 import segfault.ego.lexer.Token;
 
 public class Parser {
 
-    private final GlobalScope scope;
-
-    public Parser(GlobalScope scope) {
-        this.scope=scope;
-	}
-
-	public Expr parse(List<Token> tokens) {
+    public Expr parse(List<Token> tokens) {
         var iterator = new PushbackIterator<>(tokens.iterator());
-        return rewrite(exprRule(iterator));
-    }
-
-    private Expr rewrite(Expr expr) {
-        var visitor = new RewriteAST(scope);
-        expr.accept(visitor);
-        return visitor.returns();
+        return exprRule(iterator);
     }
 
     private Expr listExprRule(PushbackIterator<Token> tokens) {
@@ -69,7 +56,7 @@ public class Parser {
                 return new AtomLiteral(token);
             }
 
-            if(token.kind() == Kind.NUMBER) {
+            if (token.kind() == Kind.NUMBER) {
                 return new NumberLiteral(token);
             }
 
@@ -77,8 +64,6 @@ public class Parser {
                 // no op;
             }
         }
-        throw new
-
-        IllegalStateException();
+        throw new IllegalStateException();
     }
 }

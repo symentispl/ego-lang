@@ -15,6 +15,4 @@
  */
 package segfault.ego.repl;
 
-public final class Exit implements Signal
-{
-}
+public final class Exit implements Signal {}

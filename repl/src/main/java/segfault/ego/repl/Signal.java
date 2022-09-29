@@ -15,6 +15,4 @@
  */
 package segfault.ego.repl;
 
-public sealed interface Signal permits Read,Exit
-{
-}
+public sealed interface Signal permits Read, Exit {}

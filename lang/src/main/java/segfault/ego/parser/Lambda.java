@@ -19,16 +19,10 @@ import java.lang.reflect.Type;
 import java.util.List;
 import java.util.function.Function;
 
-public record Lambda(List<ParameterDecl> paramsDecl, Type returnType, Expr body) implements Expr<RewriteVisitor> {
+public record Lambda(List<ParameterDecl> paramsDecl, Type returnType, Expr body) implements Expr {
 
     @Override
     public Type type() {
         return Function.class;
     }
-
-    @Override
-    public void accept(RewriteVisitor visitor) {
-        visitor.visit(this);
-    }
-
 }

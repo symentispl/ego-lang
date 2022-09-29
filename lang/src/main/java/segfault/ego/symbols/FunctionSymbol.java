@@ -17,6 +17,4 @@ package segfault.ego.symbols;
 
 import segfault.ego.types.FunctionType;
 
-public record FunctionSymbol(String name, FunctionType type) implements Symbol{
-
-}
+public record FunctionSymbol(String name, FunctionType type) implements Symbol {}

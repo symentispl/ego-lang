@@ -16,4 +16,8 @@
 package segfault.ego.types;
 
 public record Atom(String atom) {
+    @Override
+    public String toString() {
+        return atom;
+    }
 }

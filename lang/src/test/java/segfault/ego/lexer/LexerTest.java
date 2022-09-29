@@ -33,122 +33,84 @@ public class LexerTest {
     public void tokenize_empty_expression() {
         var tokens = lexer.tokenize("");
 
-        assertThat(tokens)
-            .containsExactly(
-                eof());
+        assertThat(tokens).containsExactly(eof());
     }
 
     @Test
     public void tokenize_atom() {
         var tokens = lexer.tokenize("hello");
 
-        assertThat(tokens)
-            .containsExactly(
-                atom("hello"),
-                eof());
+        assertThat(tokens).containsExactly(atom("hello"), eof());
     }
 
     @Test
     public void tokenize_number() {
         var tokens = lexer.tokenize("129");
 
-        assertThat(tokens)
-            .containsExactly(
-                number("129"),
-                eof());
+        assertThat(tokens).containsExactly(number("129"), eof());
     }
 
     @Test
     public void tokenize_pozitive_number() {
         var tokens = lexer.tokenize("+129");
 
-        assertThat(tokens)
-            .containsExactly(
-                number("129"),
-                eof());
+        assertThat(tokens).containsExactly(number("129"), eof());
     }
 
     @Test
     public void tokenize_negative_number() {
         var tokens = lexer.tokenize("-129");
 
-        assertThat(tokens)
-            .containsExactly(
-                number("-129"),
-                eof());
+        assertThat(tokens).containsExactly(number("-129"), eof());
     }
 
     @Test
     public void tokenize_decimal_number() {
         var tokens = lexer.tokenize("129.0");
 
-        assertThat(tokens)
-            .containsExactly(
-                number("129.0"),
-                eof());
+        assertThat(tokens).containsExactly(number("129.0"), eof());
     }
 
     @Test
     public void tokenize_pozitive_decimal_number() {
         var tokens = lexer.tokenize("+129.0");
 
-        assertThat(tokens)
-            .containsExactly(
-                number("129.0"),
-                eof());
+        assertThat(tokens).containsExactly(number("129.0"), eof());
     }
 
     @Test
     public void tokenize_negative_decimal_number() {
         var tokens = lexer.tokenize("-129.0");
 
-        assertThat(tokens)
-            .containsExactly(
-                number("-129.0"),
-                eof());
+        assertThat(tokens).containsExactly(number("-129.0"), eof());
     }
 
     @Test
     public void tokenize_number_and_closing_bracket() {
         var tokens = lexer.tokenize("129)");
 
-        assertThat(tokens)
-            .containsExactly(
-                number("129"),
-                closingBracket(),
-                eof());
+        assertThat(tokens).containsExactly(number("129"), closingBracket(), eof());
     }
 
     @Test
     public void tokenize_number_within_list() {
         var tokens = lexer.tokenize("(129)");
 
-        assertThat(tokens)
-            .containsExactly(
-                openingBracket(),
-                number("129"),
-                closingBracket(),
-                eof());
+        assertThat(tokens).containsExactly(openingBracket(), number("129"), closingBracket(), eof());
     }
 
     @Test
     public void tokenize_number_concat_with_atom() {
         var tokens = lexer.tokenize("129test");
 
-        assertThat(tokens)
-            .containsExactly(
-                atom("129test"),
-                eof());
+        assertThat(tokens).containsExactly(atom("129test"), eof());
     }
 
     @Test
     public void tokenize_number_with_sign_between_digits() {
         var tokens = lexer.tokenize("1+29");
 
-        assertThat(tokens)
-            .containsExactly(
-                atom("1+29"),
-                eof());
+        assertThat(tokens).containsExactly(atom("1+29"), eof());
     }
 
     @Test
@@ -156,13 +118,8 @@ public class LexerTest {
         var tokens = lexer.tokenize("( 129test 129 test )");
 
         assertThat(tokens)
-            .containsExactly(
-                openingBracket(),
-                atom("129test"),
-                number("129"),
-                atom("test"),
-                closingBracket(),
-                eof());
+                .containsExactly(
+                        openingBracket(), atom("129test"), number("129"), atom("test"), closingBracket(), eof());
     }
 
     @Test
@@ -171,21 +128,14 @@ public class LexerTest {
             "hello world"
         """);
 
-        assertThat(tokens)
-            .containsExactly(
-                string("hello world"),
-                eof());
+        assertThat(tokens).containsExactly(string("hello world"), eof());
     }
 
     @Test
     public void tokenize_empty_list() {
         var tokens = lexer.tokenize("()");
 
-        assertThat(tokens)
-            .containsExactly(
-                openingBracket(), 
-                closingBracket(), 
-                eof());
+        assertThat(tokens).containsExactly(openingBracket(), closingBracket(), eof());
     }
 
     @Test
@@ -196,11 +146,7 @@ public class LexerTest {
             )
         """);
 
-        assertThat(tokens)
-            .containsExactly(
-                openingBracket(), 
-                closingBracket(), 
-                eof());
+        assertThat(tokens).containsExactly(openingBracket(), closingBracket(), eof());
     }
 
     @Test
@@ -211,42 +157,28 @@ public class LexerTest {
             )
         """);
 
-        assertThat(tokens)
-            .containsExactly(
-                openingBracket(), 
-                closingBracket(), 
-                eof());
+        assertThat(tokens).containsExactly(openingBracket(), closingBracket(), eof());
     }
 
     @Test
     public void tokenize_opening_bracket() {
         var tokens = lexer.tokenize("(");
 
-        assertThat(tokens)
-            .containsExactly(
-                openingBracket(), 
-                eof());
+        assertThat(tokens).containsExactly(openingBracket(), eof());
     }
-    
+
     @Test
     public void tokenize_closing_bracket() {
         var tokens = lexer.tokenize(")");
-        
-        assertThat(tokens)
-            .containsExactly(
-                closingBracket(), 
-                eof());
+
+        assertThat(tokens).containsExactly(closingBracket(), eof());
     }
 
     @Test
     public void tokenize_unclosed_list() {
         var tokens = lexer.tokenize("( hi");
 
-        assertThat(tokens)
-            .containsExactly(
-                openingBracket(), 
-                atom("hi"),
-                eof());
+        assertThat(tokens).containsExactly(openingBracket(), atom("hi"), eof());
     }
 
     @Test
@@ -255,25 +187,14 @@ public class LexerTest {
             print "hello world" )
         """);
 
-        assertThat(tokens)
-            .containsExactly(
-                atom("print"),
-                string("hello world"),
-                closingBracket(),
-                eof());
+        assertThat(tokens).containsExactly(atom("print"), string("hello world"), closingBracket(), eof());
     }
 
     @Test
     public void tokenize_atoms_within_list() {
         var tokens = lexer.tokenize("(print Hi)");
 
-        assertThat(tokens)
-            .containsExactly(
-                openingBracket(), 
-                atom("print"), 
-                atom("Hi"), 
-                closingBracket(), 
-                eof());
+        assertThat(tokens).containsExactly(openingBracket(), atom("print"), atom("Hi"), closingBracket(), eof());
     }
 
     @Test
@@ -282,12 +203,7 @@ public class LexerTest {
                 (print "Hello world")""");
 
         assertThat(tokens)
-            .containsExactly(
-                openingBracket(), 
-                atom("print"), 
-                string("Hello world"), 
-                closingBracket(),
-                eof());
+                .containsExactly(openingBracket(), atom("print"), string("Hello world"), closingBracket(), eof());
     }
 
     @Test
@@ -297,17 +213,17 @@ public class LexerTest {
             """);
 
         assertThat(tokens)
-            .containsExactly(
-                openingBracket(), 
-                atom("print"), 
-                string("4+5"), 
-                openingBracket(),
-                atom("+"),
-                number("4"),
-                number("5"),
-                closingBracket(),
-                closingBracket(),
-                eof());
+                .containsExactly(
+                        openingBracket(),
+                        atom("print"),
+                        string("4+5"),
+                        openingBracket(),
+                        atom("+"),
+                        number("4"),
+                        number("5"),
+                        closingBracket(),
+                        closingBracket(),
+                        eof());
     }
 
     @Test
@@ -317,31 +233,26 @@ public class LexerTest {
             """);
 
         assertThat(tokens)
-            .containsExactly(
-                openingBracket(), 
-                atom("print"), 
-                string("Hello Moto!"), 
-                closingBracket(),
-                eof());
+                .containsExactly(openingBracket(), atom("print"), string("Hello Moto!"), closingBracket(), eof());
     }
 
     @Test
     public void tokenize_multiline_expression_with_comment() {
-        var tokens = lexer.tokenize("""
+        var tokens = lexer.tokenize(
+                """
                 (print  ; this is comment
                     (greet "Jarek"))
             """);
 
         assertThat(tokens)
-            .containsExactly(
-                openingBracket(), 
-                atom("print"), 
-                openingBracket(),
-                atom("greet"),
-                string("Jarek"), 
-                closingBracket(),
-                closingBracket(),
-                eof());
+                .containsExactly(
+                        openingBracket(),
+                        atom("print"),
+                        openingBracket(),
+                        atom("greet"),
+                        string("Jarek"),
+                        closingBracket(),
+                        closingBracket(),
+                        eof());
     }
-
 }

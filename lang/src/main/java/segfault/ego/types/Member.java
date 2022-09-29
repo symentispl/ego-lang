@@ -17,6 +17,4 @@ package segfault.ego.types;
 
 import java.lang.reflect.Type;
 
-public record Member(String name, Type type) {
-
-}
+public record Member(String name, Type type) {}

@@ -17,5 +17,4 @@ package segfault.ego.parser;
 
 import java.lang.reflect.Type;
 
-public record ParameterDecl(String name, Type type)  {
-}
+public record ParameterDecl(String name, Type type) {}

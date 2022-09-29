@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public record ListLiteral(List<Expr> exprs) implements Expr<Visitor> {
+public record ListLiteral(List<Expr> exprs) implements Expr {
 
     /**
      * Returns non-empty optional if first element is of exprClass type
@@ -42,11 +42,6 @@ public record ListLiteral(List<Expr> exprs) implements Expr<Visitor> {
      */
     static List<Expr> tail(List<Expr> exprs) {
         return exprs.isEmpty() ? Collections.emptyList() : exprs.subList(1, exprs.size());
-    }
-
-    @Override
-    public void accept(Visitor visitor) {
-        visitor.visit(this);
     }
 
     public Type type() {

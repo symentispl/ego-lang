@@ -19,9 +19,9 @@ import segfault.ego.symbols.Symbol;
 
 public interface Context {
 
-    void set( Symbol symbol, Object object );
+    void set(Symbol symbol, Object object);
 
-    Object get( Symbol symbol );
+    Object get(Symbol symbol);
 
     public Object get(String name);
 }

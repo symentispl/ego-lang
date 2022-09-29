@@ -17,10 +17,9 @@ package segfault.ego.types;
 
 import java.util.HashMap;
 
-public record EgoObject(HashMap<String,Object> members) {
+public record EgoObject(HashMap<String, Object> members) {
 
-
-    public Object get(String property){
+    public Object get(String property) {
         return members.get(property);
     }
 

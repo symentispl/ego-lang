@@ -20,6 +20,6 @@ import java.lang.reflect.Type;
 public interface Symbol {
 
     String name();
-    Type type();
 
+    Type type();
 }

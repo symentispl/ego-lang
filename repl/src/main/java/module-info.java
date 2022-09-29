@@ -19,5 +19,6 @@ module segfault.ego.repl {
     requires org.jline;
     requires org.apache.commons.io;
 
-    opens segfault.ego.repl to com.github.rvesse.airline;
+    opens segfault.ego.repl to
+            com.github.rvesse.airline;
 }

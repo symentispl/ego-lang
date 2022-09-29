@@ -16,6 +16,7 @@
 package segfault.ego.interpreter;
 
 import segfault.ego.lexer.Lexer;
+import segfault.ego.parser.InterpretEgoAlg;
 import segfault.ego.parser.Parser;
 
 public class Interpreter {
@@ -32,9 +33,7 @@ public class Interpreter {
 
     public Object eval(String str) {
         var expr = parser.parse(lexer.tokenize(str));
-        var interpreterVisitor = new InterpreterVisitor(context);
-        expr.accept(interpreterVisitor);
-        return interpreterVisitor.returns();
+        var interpretEgoAlg = new InterpretEgoAlg();
+        return interpretEgoAlg.eval(expr);
     }
-
 }

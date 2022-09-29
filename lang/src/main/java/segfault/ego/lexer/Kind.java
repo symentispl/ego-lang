@@ -15,12 +15,11 @@
  */
 package segfault.ego.lexer;
 
-public enum Kind
-{
+public enum Kind {
     CLOSING_BRACKET,
     OPENING_BRACKET,
     ATOM,
     STRING,
-    EOF, 
+    EOF,
     NUMBER
 }

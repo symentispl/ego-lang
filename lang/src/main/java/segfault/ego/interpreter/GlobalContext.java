@@ -15,21 +15,19 @@
  */
 package segfault.ego.interpreter;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-
 import segfault.ego.parser.GlobalScope;
 import segfault.ego.symbols.Symbol;
 import segfault.ego.types.EgoObject;
 import segfault.ego.types.None;
 
-public class GlobalContext implements Context{
+public class GlobalContext implements Context {
 
-    public static GlobalContextBuilder create( GlobalScope globalScope) {
+    public static GlobalContextBuilder create(GlobalScope globalScope) {
         return new GlobalContextBuilder(globalScope);
     }
 
@@ -39,29 +37,28 @@ public class GlobalContext implements Context{
             return None.none;
         };
         Function<List<Object>, Object> greetFunction = (List<Object> s) -> {
-            return "Hello "+s.get(0).toString();
+            return "Hello " + s.get(0).toString();
         };
         Function<List<Object>, Object> getFunction = (List<Object> s) -> {
-            return ((EgoObject)s.get(1)).get(s.get(0).toString());
+            return ((EgoObject) s.get(1)).get(s.get(0).toString());
         };
         Function<List<Object>, Object> gtFunction = (List<Object> s) -> {
-            return ((Number)s.get(0)).intValue() > ((Number)s.get(1)).intValue(); 
+            return ((Number) s.get(0)).intValue() > ((Number) s.get(1)).intValue();
         };
         Function<List<Object>, Object> ifFunction = (List<Object> s) -> {
-            return ((Boolean)s.get(0))?s.get(1):s.get(2); 
+            return ((Boolean) s.get(0)) ? s.get(1) : s.get(2);
         };
         Function<List<Object>, Object> concatFunction = (List<Object> s) -> {
-            return s.get(0).toString() + s.get(1).toString(); 
+            return s.get(0).toString() + s.get(1).toString();
         };
-
 
         return create(builtInScope)
                 .set("print", printFunction)
                 // .set("greet", greetFunction)
-                .set("get", getFunction )
+                .set("get", getFunction)
                 .set("gt", gtFunction)
-                .set("if",ifFunction)
-                .set("+",concatFunction)
+                .set("if", ifFunction)
+                .set("+", concatFunction)
                 .build();
     }
 
@@ -70,12 +67,12 @@ public class GlobalContext implements Context{
         private final GlobalScope globalScope;
         private final Map<Symbol, Object> context = new HashMap<>();
 
-        private GlobalContextBuilder( GlobalScope globalScope) {
+        private GlobalContextBuilder(GlobalScope globalScope) {
             this.globalScope = globalScope;
         }
 
         GlobalContextBuilder set(String name, Object object) {
-            var symbol = globalScope.resolve( name);
+            var symbol = globalScope.resolve(name);
             if (symbol == null) {
                 throw new UnsupportedOperationException("unresolved variable " + name);
             }
@@ -84,31 +81,33 @@ public class GlobalContext implements Context{
         }
 
         GlobalContext build() {
-            return new GlobalContext( globalScope, context);
+            return new GlobalContext(globalScope, context);
         }
-
     }
 
     private final GlobalScope scope;
-    private final Map<Symbol,Object> context;
+    private final Map<Symbol, Object> context;
 
-    private GlobalContext( GlobalScope scope, Map<Symbol, Object> context) {
+    private GlobalContext(GlobalScope scope, Map<Symbol, Object> context) {
         this.scope = scope;
         this.context = context;
     }
 
     @Override
-    public void set( Symbol symbol, Object object ) {
-            context.put( symbol, object );
+    public void set(Symbol symbol, Object object) {
+        context.put(symbol, object);
     }
 
     @Override
-    public Object get( Symbol symbol ) {
-        return context.get( symbol );
+    public Object get(Symbol symbol) {
+        return context.get(symbol);
     }
 
-    public Object get(String name){
-        return context.keySet().stream().filter( symbole -> symbole.name().equals( name ) ).map( context::get ).findFirst().get();
+    public Object get(String name) {
+        return context.keySet().stream()
+                .filter(symbole -> symbole.name().equals(name))
+                .map(context::get)
+                .findFirst()
+                .get();
     }
-
 }

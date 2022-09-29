@@ -16,7 +16,6 @@
 package segfault.ego.parser;
 
 import java.util.List;
-
 import segfault.ego.symbols.FunctionSymbol;
 import segfault.ego.symbols.ParameterSymbol;
 import segfault.ego.symbols.Symbol;
@@ -32,26 +31,35 @@ public class BuiltInScope implements Scope {
 
     public BuiltInScope() {
         symbolTable.add(new TypeSymbol("String", String.class));
-        symbolTable.add(new FunctionSymbol("print",
-                new FunctionType( List.of(new ParameterSymbol( "str", String.class)), None.class)));
+        symbolTable.add(new FunctionSymbol(
+                "print", new FunctionType(List.of(new ParameterSymbol("str", String.class)), None.class)));
         // symbolTable.add(new FunctionSymbol("greet", new FunctionType( List.of(
         // String.class), String.class)));
-        symbolTable.add(new FunctionSymbol("+",
+        symbolTable.add(new FunctionSymbol(
+                "+",
                 new FunctionType(
                         List.of(new ParameterSymbol("op1", String.class), new ParameterSymbol("op2", String.class)),
                         String.class)));
-        symbolTable.add(new FunctionSymbol("get", new FunctionType(
-                List.of(new ParameterSymbol("property", String.class), new ParameterSymbol("obj", EgoObject.class)),
-                Object.class)));
-        symbolTable.add(new FunctionSymbol("gt",
+        symbolTable.add(new FunctionSymbol(
+                "get",
+                new FunctionType(
+                        List.of(
+                                new ParameterSymbol("property", String.class),
+                                new ParameterSymbol("obj", EgoObject.class)),
+                        Object.class)));
+        symbolTable.add(new FunctionSymbol(
+                "gt",
                 new FunctionType(
                         List.of(new ParameterSymbol("op1", Number.class), new ParameterSymbol("op2", Number.class)),
                         Boolean.class)));
-        symbolTable
-                .add(new FunctionSymbol("if",
-                        new FunctionType(List.of(new ParameterSymbol("predicate", Boolean.class),
-                                new ParameterSymbol("ifThen", Object.class), new ParameterSymbol("else", Object.class)),
-                                Object.class)));
+        symbolTable.add(new FunctionSymbol(
+                "if",
+                new FunctionType(
+                        List.of(
+                                new ParameterSymbol("predicate", Boolean.class),
+                                new ParameterSymbol("ifThen", Object.class),
+                                new ParameterSymbol("else", Object.class)),
+                        Object.class)));
     }
 
     @Override
@@ -68,5 +76,4 @@ public class BuiltInScope implements Scope {
     public void define(Symbol symbol) {
         throw new UnsupportedOperationException("built-in scope is read-only");
     }
-
 }

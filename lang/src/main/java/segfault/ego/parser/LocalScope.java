@@ -16,34 +16,32 @@
 package segfault.ego.parser;
 
 import java.util.Objects;
-
 import segfault.ego.symbols.*;
 
 public class LocalScope implements Scope {
 
-	private final SymbolTable symbolTable = new SymbolTable();
-	private final Scope enclosingScope;
+    private final SymbolTable symbolTable = new SymbolTable();
+    private final Scope enclosingScope;
 
-	public LocalScope(Scope enclosingScope) {
-		Objects.requireNonNull(enclosingScope);
-		this.enclosingScope = enclosingScope;
-	}
+    public LocalScope(Scope enclosingScope) {
+        Objects.requireNonNull(enclosingScope);
+        this.enclosingScope = enclosingScope;
+    }
 
-	public Symbol resolve(String name) {
-		Symbol symbol = symbolTable.get(name);
-		if (symbol == null && enclosingScope != null) {
-			return enclosingScope.resolve(name);
-		}
-		return symbol;
-	}
+    public Symbol resolve(String name) {
+        Symbol symbol = symbolTable.get(name);
+        if (symbol == null && enclosingScope != null) {
+            return enclosingScope.resolve(name);
+        }
+        return symbol;
+    }
 
-	public void define(Symbol symbol) {
-		symbolTable.add(symbol);
-	}
+    public void define(Symbol symbol) {
+        symbolTable.add(symbol);
+    }
 
-	@Override
-	public Scope getEnclosingScope() {
-		return enclosingScope;
-	}
-
+    @Override
+    public Scope getEnclosingScope() {
+        return enclosingScope;
+    }
 }

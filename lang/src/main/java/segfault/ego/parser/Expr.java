@@ -22,7 +22,18 @@ import static segfault.ego.lexer.Token.string;
 import java.lang.reflect.Type;
 import java.util.Optional;
 
-public interface Expr<T extends Visitor> {
+public sealed interface Expr
+        permits AtomLiteral,
+                FunCall,
+                FunDecl,
+                Lambda,
+                ListLiteral,
+                NumberLiteral,
+                ObjectLiteral,
+                ObjectMember,
+                Ref,
+                StringLiteral,
+                ValDecl {
 
     static ListLiteral listExpr(Expr... exprs) {
         return new ListLiteral(asList(exprs));
@@ -40,14 +51,14 @@ public interface Expr<T extends Visitor> {
      * Returns non-empty optional if expression is pair
      */
     static <F, S> Optional<Pair<F, S>> pairOf(Expr expr, Class<F> first, Class<S> second) {
-        return Optional.of(expr).filter(e -> e instanceof ListLiteral).map(e -> ListLiteral.class.cast(e))
+        return Optional.of(expr)
+                .filter(e -> e instanceof ListLiteral)
+                .map(ListLiteral.class::cast)
                 .filter(e -> e.exprs().size() == 2)
-                .filter(e -> first.isInstance(e.exprs().get(0)) && second.isInstance(e.exprs().get(1)))
-                .map(e -> new Pair<F, S>((F) e.exprs().get(0), (S) e.exprs().get(1)));
+                .filter(e -> first.isInstance(e.exprs().get(0))
+                        && second.isInstance(e.exprs().get(1)))
+                .map(e -> new Pair<>((F) e.exprs().get(0), (S) e.exprs().get(1)));
     }
 
     Type type();
-
-    void accept(T visitor);
-
 }
