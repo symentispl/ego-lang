@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright © 2020 Segfault (wiktor@segfault.events,jarek@segfault.events)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,14 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-module segfault.ego.repl {
-    requires segfault.ego.lang;
-    requires com.github.rvesse.airline;
-    requires org.jline;
-    requires org.apache.commons.io;
+package segfault.ego.sourcegen;
 
-    exports segfault.ego.repl;
+import static segfault.ego.parser.Expr.atomExpr;
 
-    opens segfault.ego.repl to
-            com.github.rvesse.airline;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import segfault.ego.parser.Expr;
+
+@Disabled
+class SourceGenEgoAlgoTest {
+
+    @Test
+    void sourceGenEmpty() {
+        var algo = new SourceGenEgoAlgo();
+        algo.sourceGen(Expr.listExpr(atomExpr("a")));
+    }
 }

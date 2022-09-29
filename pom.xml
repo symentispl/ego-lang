@@ -177,6 +177,8 @@
         <module>lang</module>
         <module>repl</module>
         <module>bin</module>
+        <module>sourcegen</module>
+        <module>cli</module>
     </modules>
 
     <repositories>

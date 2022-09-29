@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright © 2020 Segfault (wiktor@segfault.events,jarek@segfault.events)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,14 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-module segfault.ego.repl {
-    requires segfault.ego.lang;
+module segfault.ego.cli {
+    requires segfault.ego.repl;
+    requires segfault.ego.sourcegen;
     requires com.github.rvesse.airline;
-    requires org.jline;
     requires org.apache.commons.io;
 
-    exports segfault.ego.repl;
-
-    opens segfault.ego.repl to
+    opens segfault.ego.cli to
             com.github.rvesse.airline;
 }

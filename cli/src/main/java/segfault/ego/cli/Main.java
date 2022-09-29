@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright © 2020 Segfault (wiktor@segfault.events,jarek@segfault.events)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,14 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-module segfault.ego.repl {
-    requires segfault.ego.lang;
-    requires com.github.rvesse.airline;
-    requires org.jline;
-    requires org.apache.commons.io;
+package segfault.ego.cli;
 
-    exports segfault.ego.repl;
+import com.github.rvesse.airline.annotations.Cli;
+import com.github.rvesse.airline.help.Help;
+import segfault.ego.repl.REPL;
+import segfault.ego.repl.ToDOT;
 
-    opens segfault.ego.repl to
-            com.github.rvesse.airline;
+@Cli(
+        name = "ego",
+        defaultCommand = REPL.class,
+        commands = {ToDOT.class, Help.class})
+public class Main {
+    public static void main(String[] args) {
+        var command = new com.github.rvesse.airline.Cli<Runnable>(Main.class).parse(args);
+        command.run();
+    }
 }
