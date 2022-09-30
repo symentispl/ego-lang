@@ -21,12 +21,15 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import segfault.ego.parser.Expr;
 
+import java.io.IOException;
+
 @Disabled
 class SourceGenSexprAlgTest {
 
     @Test
-    void sourceGenEmpty() {
+    void sourceGenEmpty() throws IOException
+    {
         var algo = new SourceGenEgoAlg();
-        algo.sourceGen(Expr.listExpr(atomExpr("a")));
+        algo.sourceGen(Expr.listExpr(atomExpr("a"))).writeTo( System.out );
     }
 }

@@ -43,6 +43,15 @@ public class BuiltInScope implements Scope {
                     "print",
                     new FunctionType(List.of(new ParameterSymbol("str", String.class)), None.class),
                     printFunctionMethodHandler(lookup)));
+
+            symbolTable.add(new FunctionSymbol(
+                    "+",
+                    new FunctionType(
+                            List.of(new ParameterSymbol("n0", Number.class), new ParameterSymbol("n1", Number.class)),
+                            Number.class),
+                    lookup.findStatic(
+                            BuiltInScope.class, "plus", methodType(Number.class, Number.class, Number.class))));
+
         } catch (NoSuchMethodException e) {
             throw new RuntimeException(e);
         } catch (IllegalAccessException e) {
@@ -79,5 +88,9 @@ public class BuiltInScope implements Scope {
     @Override
     public void define(Symbol symbol) {
         throw new UnsupportedOperationException("built-in scope is read-only");
+    }
+
+    public static Number plus(Number n1, Number n2) {
+        return n1.longValue() + n2.longValue();
     }
 }

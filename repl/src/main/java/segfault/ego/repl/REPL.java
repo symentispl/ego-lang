@@ -16,9 +16,6 @@
 package segfault.ego.repl;
 
 import com.github.rvesse.airline.annotations.Command;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import org.apache.commons.io.input.CloseShieldInputStream;
 import org.jline.reader.EndOfFileException;
 import org.jline.reader.LineReader;
@@ -32,6 +29,10 @@ import segfault.ego.parser.GlobalScope;
 import segfault.ego.parser.Parser;
 import segfault.ego.types.Atom;
 import segfault.ego.types.None;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 @Command(name = "repl")
 public class REPL implements Runnable {
@@ -110,7 +111,7 @@ public class REPL implements Runnable {
 
     private void evalStdinAndMaybeExit() throws IOException {
         try (var reader = new BufferedReader(new InputStreamReader(CloseShieldInputStream.wrap(System.in)))) {
-            reader.lines().forEach(line -> System.out.print(format(eval(line))));
+            reader.lines().forEach(line -> eval(line));
         }
         System.exit(0);
     }

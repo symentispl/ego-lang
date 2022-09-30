@@ -28,8 +28,10 @@ public class RewritingEgoAlg implements SexprAlg<Expr, AtomLiteral, NumberLitera
     @Override
     public Expr listLiteral(ListLiteral literal) {
         return literal.firstOf(AtomLiteral.class)
-                .<Expr>map(e -> new FunCall((FunctionSymbol) scope.resolve(e.atom()), literal.tail()))
-                .orElse(literal);
+                .<Expr>map(e -> new FunCall(
+                        (FunctionSymbol) scope.resolve(e.atom()),
+                        literal.tail().stream().map(this::eval).toList()))
+                .orElse(new ListLiteral(literal.exprs().stream().map(this::eval).toList()));
     }
 
     @Override
@@ -47,7 +49,7 @@ public class RewritingEgoAlg implements SexprAlg<Expr, AtomLiteral, NumberLitera
         return s;
     }
 
-    public Expr rewrite(Expr expr) {
+    public Expr eval(Expr expr) {
         return switch (expr) {
             case AtomLiteral a -> atomLiteral(a);
             case NumberLiteral n -> numberLiteral(n);

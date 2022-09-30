@@ -35,7 +35,7 @@ public class Interpreter {
     public Object eval(String str) {
         var expr = parser.parse(lexer.tokenize(str));
         var rewritingEgoAlg = new RewritingEgoAlg(globalScope);
-        expr = rewritingEgoAlg.rewrite(expr);
+        expr = rewritingEgoAlg.eval(expr);
         var interpretEgoAlg = new InterpreterEgoAlg(globalScope);
         return interpretEgoAlg.eval(expr);
     }
