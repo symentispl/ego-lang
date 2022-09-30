@@ -125,7 +125,7 @@
                                     </artifact>
                                     <moduleInfoSource>
                                         module org.apache.commons.io {
-                                            exports org.apache.commons.io.input;
+                                        exports org.apache.commons.io.input;
                                         }
                                     </moduleInfoSource>
                                 </module>
