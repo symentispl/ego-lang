@@ -10,7 +10,7 @@ on:
     types: [ closed ]
 
 jobs:
-  build:
+  release:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
 
@@ -23,4 +23,4 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Prepare for release
-      run: ./mvnw -B -DignoreSnapshots=true release:prepare -PpublishRelease
+      run: ./mvnw -B -DignoreSnapshots=true release:prepare
