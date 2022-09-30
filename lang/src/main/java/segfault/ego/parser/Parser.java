@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright © 2020 Segfault (wiktor@segfault.events,jarek@segfault.events)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
