@@ -55,6 +55,7 @@
     </dependencies>
 
     <build>
+        <finalName>egolang-${os.name}-${os.arch}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -184,8 +185,11 @@
                         </goals>
                         <configuration>
                             <target>
-                                <replaceregexp file="${project.build.directory}/jlink-image/bin/ego" match="^JLINK_VM_OPTIONS=" replace="JLINK_VM_OPTIONS=--enable-preview" byline="true" />
-                                <chmod file="${project.build.directory}/jlink-image/bin/ego" perm="ug+rwx" />
+                                <replaceregexp file="${project.build.directory}/jlink-image/bin/ego"
+                                               match="^JLINK_VM_OPTIONS="
+                                               replace="JLINK_VM_OPTIONS=--enable-preview"
+                                               byline="true"/>
+                                <chmod file="${project.build.directory}/jlink-image/bin/ego" perm="ug+rwx"/>
                             </target>
                         </configuration>
                     </execution>
@@ -206,4 +210,36 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>publishRelease</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-assembly-plugin</artifactId>
+                        <version>3.4.0</version>
+                        <executions>
+                            <execution>
+                                <id>dist-zip</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>single</goal>
+                                </goals>
+                                <configuration>
+                                    <appendAssemblyId>false</appendAssemblyId>
+                                    <descriptors>
+                                        <descriptor>src/assembly/dist-zip.xml</descriptor>
+                                    </descriptors>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
