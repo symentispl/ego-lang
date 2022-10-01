@@ -46,7 +46,7 @@ public class EgoREPLIT {
             var exitValue = process.exitValue();
             assertThat(exitValue).isEqualTo(0);
             try (var reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
-                assertThat(reader.readLine()).isEqualTo("[]");
+                assertThat(reader.readLine()).isBlank();
             }
         } else {
             process.destroyForcibly();
