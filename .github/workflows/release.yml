@@ -15,6 +15,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
+    - uses: webfactory/ssh-agent@v0.5.4
+      with:
+        ssh-private-key: ${{ secrets.REPO_SECRET_KEY }}
     - run: git config --local user.email "jaroslaw.palka@symentis.pl"
     - run: git config --local user.name "Jarosław Pałka"
     - name: Set up JDK 17
