@@ -22,8 +22,7 @@ public final class None {
     private None() {}
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "none";
     }
 }

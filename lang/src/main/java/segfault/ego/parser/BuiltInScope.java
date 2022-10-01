@@ -15,22 +15,21 @@
  */
 package segfault.ego.parser;
 
+import static java.lang.invoke.MethodHandles.constant;
+import static java.lang.invoke.MethodHandles.filterArguments;
+import static java.lang.invoke.MethodHandles.filterReturnValue;
+import static java.lang.invoke.MethodType.methodType;
+
+import java.io.PrintStream;
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
+import java.util.List;
 import segfault.ego.symbols.FunctionSymbol;
 import segfault.ego.symbols.ParameterSymbol;
 import segfault.ego.symbols.Symbol;
 import segfault.ego.symbols.SymbolTable;
 import segfault.ego.types.FunctionType;
 import segfault.ego.types.None;
-
-import java.io.PrintStream;
-import java.lang.invoke.MethodHandle;
-import java.lang.invoke.MethodHandles;
-import java.util.List;
-
-import static java.lang.invoke.MethodHandles.constant;
-import static java.lang.invoke.MethodHandles.filterArguments;
-import static java.lang.invoke.MethodHandles.filterReturnValue;
-import static java.lang.invoke.MethodType.methodType;
 
 public class BuiltInScope implements Scope {
 
