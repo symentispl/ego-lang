@@ -21,7 +21,7 @@
 
     <groupId>segfault.ego</groupId>
     <artifactId>ego-lang</artifactId>
-    <version>1.2</version>
+    <version>1.3-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>ego-lang</name>
@@ -40,7 +40,7 @@
         <url>https://github.com/symentispl/ego-lang</url>
         <connection>scm:git:git@github.com:symentispl/ego-lang.git</connection>
         <developerConnection>scm:git:git@github.com:symentispl/ego-lang.git</developerConnection>
-      <tag>v1.2</tag>
+      <tag>HEAD</tag>
   </scm>
 
     <dependencyManagement>
