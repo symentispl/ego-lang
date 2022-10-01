@@ -15,8 +15,7 @@
  */
 package segfault.ego.symbols;
 
+import java.lang.invoke.MethodHandle;
 import segfault.ego.types.FunctionType;
 
-public record FunctionSymbol(String name, FunctionType type) implements Symbol{
-
-}
+public record FunctionSymbol(String name, FunctionType type, MethodHandle mh) implements Symbol {}

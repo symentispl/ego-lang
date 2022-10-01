@@ -22,7 +22,6 @@ import org.jline.reader.LineReader;
 import org.jline.reader.LineReaderBuilder;
 import org.jline.terminal.Terminal;
 import org.jline.terminal.TerminalBuilder;
-import segfault.ego.interpreter.GlobalContext;
 import segfault.ego.interpreter.Interpreter;
 import segfault.ego.lexer.Lexer;
 import segfault.ego.parser.BuiltInScope;
@@ -35,29 +34,21 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-@Command( name = "repl" )
-public class REPL implements Runnable
-{
+@Command(name = "repl")
+public class REPL implements Runnable {
 
-    private Lexer lexer;
-    private Parser parser;
-    private Interpreter interpreter;
-    private GlobalContext context;
+    private final GlobalScope globalScope;
+    private final Interpreter interpreter;
     private Terminal terminal;
     private LineReader linereader;
 
-    public REPL()
-    {
-
-        try
-        {
-            lexer = new Lexer();
-            var builtInScope = new BuiltInScope();
-            var globalScope = new GlobalScope( builtInScope );
-            parser = new Parser( globalScope );
-            context = GlobalContext.defaulGlobalContext( globalScope );
-            interpreter = new Interpreter( context, lexer, parser );
-            if ( System.console() == null ) // a trick to find out if stdin is a terminal
+    public REPL() {
+        Lexer lexer = new Lexer();
+        Parser parser = new Parser();
+        globalScope = new GlobalScope(new BuiltInScope());
+        interpreter = new Interpreter(globalScope, lexer, parser);
+        try {
+            if (System.console() == null) // a trick to find out if stdin is a terminal
             {
                 evalStdinAndMaybeExit();
             }
@@ -65,91 +56,63 @@ public class REPL implements Runnable
             terminal = TerminalBuilder.builder().build();
             terminal.writer().println("Welcome to Ego version unknown");
             linereader = LineReaderBuilder.builder()
-                                          .appName( "ego" )
-                                          .terminal( terminal )
-                                          .build();
-        }
-        catch ( IOException e )
-        {
+                    .appName("ego")
+                    .terminal(terminal)
+                    .build();
+        } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
 
     @Override
-    public void run()
-    {
+    public void run() {
         var run = true;
-        while ( run )
-        {
+        while (run) {
             var signal = read();
-            switch ( signal )
-            {
-            case Read r:
-                print( eval( r.line() ) );
-                continue;
-            case Exit ignored:
-                run = false;
+            switch (signal) {
+                case Read r -> print(eval(r.line()));
+                case Exit ignored -> run = false;
             }
         }
     }
 
-    private Signal read()
-    {
-        try
-        {
-            return new Read( linereader.readLine( "> " ) );
-        }
-        catch ( EndOfFileException e )
-        {
+    private Signal read() {
+        try {
+            return new Read(linereader.readLine("> "));
+        } catch (EndOfFileException e) {
             return new Exit();
         }
     }
 
-    private void print( Object value )
-    {
-        terminal.writer().format( format( value ) );
+    private void print(Object value) {
+        terminal.writer().format(format(value));
     }
 
-    private Object eval( String str )
-    {
-        try
-        {
-            return interpreter.eval( str );
-        }
-        catch ( Exception e )
-        {
+    private Object eval(String str) {
+        try {
+            return interpreter.eval(str);
+        } catch (Exception e) {
             return "error: " + e.getMessage();
         }
     }
 
-    private String format( Object value )
-    {
-        if ( value instanceof Atom )
-        {
-            return String.format( "%s\n", context.get( ((Atom) value).atom() ) );
-        }
-        else if ( value instanceof String )
-        {
-            return String.format( "\"%s\"\n", value );
-        }
-        else if ( value != None.none )
-        {
-            return String.format( "%s\n", value );
-        }
-        else
-        {
+    private String format(Object value) {
+        if (value instanceof Atom) {
+            return String.format("%s\n", globalScope.get(((Atom) value).atom()));
+        } else if (value instanceof String) {
+            return String.format("\"%s\"\n", value);
+        } else if (value != None.none) {
+            return String.format("%s\n", value);
+        } else {
             return "none";
         }
     }
 
-    private void evalStdinAndMaybeExit() throws IOException
-    {
-        try ( var reader = new BufferedReader( new InputStreamReader( CloseShieldInputStream.wrap( System.in ) ) ) )
-        {
-            reader.lines().
-                  forEach( line -> System.out.print( format( eval( line ) ) ) );
+    private void evalStdinAndMaybeExit() throws IOException {
+        try (var reader = new BufferedReader(new InputStreamReader(CloseShieldInputStream.wrap(System.in)))) {
+            reader.lines().forEach(line -> eval(line));
         }
-        System.exit( 0 );
+        System.exit(0);
     }
 }

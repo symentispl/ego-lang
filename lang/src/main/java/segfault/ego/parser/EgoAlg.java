@@ -13,15 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package segfault.ego.interpreter;
+package segfault.ego.parser;
 
-import segfault.ego.symbols.Symbol;
+public interface EgoAlg<L, A, N, S, F> extends SexprAlg<L, A, N, S> {
 
-public interface Context {
-
-    void set( Symbol symbol, Object object );
-
-    Object get( Symbol symbol );
-
-    public Object get(String name);
+    F funCall(FunCall funCall);
 }

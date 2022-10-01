@@ -79,6 +79,19 @@
         <pluginManagement>
             <plugins>
                 <plugin>
+                    <groupId>com.diffplug.spotless</groupId>
+                    <artifactId>spotless-maven-plugin</artifactId>
+                    <version>2.27.1</version>
+                    <configuration>
+                        <java>
+                            <palantirJavaFormat>
+                                <!-- Optionally specify a version -->
+                                <version>2.27.0</version>
+                            </palantirJavaFormat>
+                        </java>
+                    </configuration>
+                </plugin>
+                <plugin>
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>3.10.1</version>
                     <configuration>
@@ -167,6 +180,8 @@
         <module>lang</module>
         <module>repl</module>
         <module>bin</module>
+        <module>sourcegen</module>
+        <module>cli</module>
     </modules>
 
     <repositories>

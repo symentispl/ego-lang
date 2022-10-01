@@ -15,12 +15,9 @@
  */
 package segfault.ego.types;
 
-import segfault.ego.symbols.ParameterSymbol;
-
 import java.lang.reflect.Type;
 import java.util.List;
+import segfault.ego.symbols.ParameterSymbol;
 
 // note to my self, this directly maps to MethodHandle in JVM
-public record FunctionType(List<ParameterSymbol> parameters, Type returnType) implements Type {
-
-}
+public record FunctionType(List<ParameterSymbol> parameters, Type returnType) implements Type {}

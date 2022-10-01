@@ -17,16 +17,10 @@ package segfault.ego.parser;
 
 import java.lang.reflect.Type;
 
-public record ObjectMember(String name, Expr expr) implements Expr<RewriteVisitor> {
+public record ObjectMember(String name, Expr expr) implements Expr {
 
     @Override
     public Type type() {
         return expr.type();
     }
-
-    @Override
-    public void accept(RewriteVisitor visitor) {
-        visitor.visit(this);
-    }
-
 }

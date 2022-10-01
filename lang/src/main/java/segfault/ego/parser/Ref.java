@@ -16,20 +16,11 @@
 package segfault.ego.parser;
 
 import java.lang.reflect.Type;
-
 import segfault.ego.symbols.Symbol;
 
-public record Ref(Symbol symbol) implements Expr<RewriteVisitor>
-{
+public record Ref(Symbol symbol) implements Expr {
     @Override
-    public Type type()
-    {
+    public Type type() {
         return symbol.type();
-    }
-
-    @Override
-    public void accept( RewriteVisitor visitor )
-    {
-        visitor.visit( this );
     }
 }

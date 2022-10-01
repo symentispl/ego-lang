@@ -19,6 +19,11 @@ public final class None {
 
     public static final None none = new None();
 
-    private None() {
+    private None() {}
+
+    @Override
+    public String toString()
+    {
+        return "none";
     }
 }

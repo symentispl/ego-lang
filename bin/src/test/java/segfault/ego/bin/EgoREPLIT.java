@@ -15,7 +15,8 @@
  */
 package segfault.ego.bin;
 
-import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -24,42 +25,32 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.concurrent.TimeUnit;
+import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.fail;
-
-public class EgoREPLIT
-{
+public class EgoREPLIT {
     @Test
-    void runREPL() throws IOException, InterruptedException
-    {
-        var process = new ProcessBuilder( "./ego" )
-                .directory( new File( "target/jlink-image/bin" ) )
-                .redirectErrorStream( true )
+    void runREPL() throws IOException, InterruptedException {
+        var process = new ProcessBuilder("./ego")
+                .directory(new File("target/jlink-image/bin"))
+                .redirectErrorStream(true)
                 .start();
 
-        try ( var writer = new PrintWriter( new OutputStreamWriter( process.getOutputStream() ) ) )
-        {
-            writer.println( "()" );
+        try (var writer = new PrintWriter(new OutputStreamWriter(process.getOutputStream()))) {
+            writer.println("()");
             writer.flush();
         }
 
-        var hasProcessExited = process.waitFor( 5, TimeUnit.SECONDS );
+        var hasProcessExited = process.waitFor(5, TimeUnit.SECONDS);
 
-        if ( hasProcessExited )
-        {
+        if (hasProcessExited) {
             var exitValue = process.exitValue();
-            assertThat( exitValue ).isEqualTo( 0 );
-            try ( var reader = new BufferedReader( new InputStreamReader( process.getInputStream() ) ) )
-            {
-                assertThat( reader.readLine() ).isEqualTo( "[]" );
+            assertThat(exitValue).isEqualTo(0);
+            try (var reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
+                assertThat(reader.readLine()).isBlank();
             }
-        }
-        else
-
-        {
+        } else {
             process.destroyForcibly();
-            fail( "process didn't exit" );
+            fail("process didn't exit");
         }
     }
 }

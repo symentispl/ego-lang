@@ -18,15 +18,13 @@ package segfault.ego.repl;
 import com.github.rvesse.airline.annotations.Cli;
 import com.github.rvesse.airline.help.Help;
 
-@Cli( name = "ego",
+@Cli(
+        name = "ego",
         defaultCommand = REPL.class,
-        commands = {ToDOT.class, Help.class}
-)
-public class Main
-{
-    public static void main( String[] args )
-    {
-        var command = new com.github.rvesse.airline.Cli<Runnable>( Main.class ).parse( args );
+        commands = {ToDOT.class, Help.class})
+public class Main {
+    public static void main(String[] args) {
+        var command = new com.github.rvesse.airline.Cli<Runnable>(Main.class).parse(args);
         command.run();
     }
 }

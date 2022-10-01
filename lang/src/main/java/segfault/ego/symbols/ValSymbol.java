@@ -17,6 +17,4 @@ package segfault.ego.symbols;
 
 import java.lang.reflect.Type;
 
-public record ValSymbol(String name, Type type) implements Symbol {
-
-}
+public record ValSymbol(String name, Type type) implements Symbol {}

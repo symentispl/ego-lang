@@ -15,20 +15,15 @@
  */
 package segfault.ego.parser;
 
-import segfault.ego.parser.BuiltInScope;
-import segfault.ego.parser.Scope;
+import java.util.Objects;
 import segfault.ego.symbols.Symbol;
 import segfault.ego.symbols.SymbolTable;
 
-import java.util.Objects;
-
-public class GlobalScope implements Scope
-{
+public class GlobalScope implements Scope {
     private final BuiltInScope builtInScope;
     private final SymbolTable symbolTable = new SymbolTable();
 
-    public GlobalScope( BuiltInScope builtInScope )
-    {
+    public GlobalScope(BuiltInScope builtInScope) {
         Objects.requireNonNull(builtInScope);
         this.builtInScope = builtInScope;
     }
@@ -36,7 +31,7 @@ public class GlobalScope implements Scope
     @Override
     public Symbol resolve(String name) {
         var symbol = symbolTable.get(name);
-        if ( symbol == null ) {
+        if (symbol == null) {
             return builtInScope.resolve(name);
         }
         return symbol;
@@ -52,4 +47,7 @@ public class GlobalScope implements Scope
         return builtInScope;
     }
 
+    public Object get(String atom) {
+        return symbolTable.get(atom);
+    }
 }

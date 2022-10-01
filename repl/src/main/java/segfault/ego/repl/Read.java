@@ -15,17 +15,14 @@
  */
 package segfault.ego.repl;
 
-public final class Read implements Signal
-{
+public final class Read implements Signal {
     private final String line;
 
-    public Read( String line )
-    {
+    public Read(String line) {
         this.line = line;
     }
 
-    public String line()
-    {
+    public String line() {
         return line;
     }
 }

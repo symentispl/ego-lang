@@ -13,19 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package segfault.ego.types;
+module segfault.ego.cli {
+    requires segfault.ego.repl;
+    requires segfault.ego.sourcegen;
+    requires com.github.rvesse.airline;
+    requires org.apache.commons.io;
 
-import java.util.HashMap;
-
-public record EgoObject(HashMap<String,Object> members) {
-
-
-    public Object get(String property){
-        return members.get(property);
-    }
-
-    @Override
-    public String toString() {
-        return members.toString();
-    }
+    opens segfault.ego.cli to
+            com.github.rvesse.airline;
 }

@@ -13,17 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package segfault.ego.parser;
+module segfault.ego.sourcegen {
+    requires segfault.ego.lang;
+    requires com.squareup.javapoet;
+    requires java.compiler;
 
-public interface Visitor {
-
-    void visit(AtomLiteral atomExpr);
-
-    void visit(ListLiteral listExpr);
-
-    void visit(StringLiteral stringLiteralExpr);
-
-	void visit(NumberLiteral numberLiteral);
-
-    void visit( FunCall funCall );
+    exports segfault.ego.sourcegen;
 }

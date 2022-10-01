@@ -61,11 +61,11 @@ class CharacterClasses {
         return ch != OPENING_BRACKET && ch != CLOSING_BRACKET;
     }
 
-	public static boolean isNegativeSign(int ch) {
-		return ch == CharacterClasses.MINUS;
-	}
+    public static boolean isNegativeSign(int ch) {
+        return ch == CharacterClasses.MINUS;
+    }
 
-	public static boolean isPositiveSign(int ch) {
-		return ch == CharacterClasses.PLUS;
-	}
+    public static boolean isPositiveSign(int ch) {
+        return ch == CharacterClasses.PLUS;
+    }
 }

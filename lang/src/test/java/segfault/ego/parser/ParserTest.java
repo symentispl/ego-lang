@@ -15,13 +15,12 @@
  */
 package segfault.ego.parser;
 
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
-
-import segfault.ego.lexer.Lexer;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static segfault.ego.parser.Expr.*;
+
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import segfault.ego.lexer.Lexer;
 
 public class ParserTest {
 
@@ -29,7 +28,7 @@ public class ParserTest {
     @Disabled(" this test was used for first pass of parser visitor")
     public void parse() {
         var lexer = new Lexer();
-        var parser = new Parser(new GlobalScope(new BuiltInScope()));
+        var parser = new Parser();
 
         var expr = parser.parse(lexer.tokenize("()"));
         assertThat(expr).isEqualTo(listExpr());
@@ -51,5 +50,4 @@ public class ParserTest {
         assertThat(expr)
                 .isEqualTo(listExpr(listExpr(atomExpr("atom"), listExpr(atomExpr("help"), stringLiteralExpr("Me")))));
     }
-
 }

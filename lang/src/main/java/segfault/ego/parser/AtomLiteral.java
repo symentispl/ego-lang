@@ -16,23 +16,17 @@
 package segfault.ego.parser;
 
 import java.lang.reflect.Type;
-
 import segfault.ego.lexer.Token;
 import segfault.ego.types.Atom;
 
-public record AtomLiteral(Token token) implements Expr<Visitor> {
-
-    @Override
-    public void accept(Visitor visitor) {
-        visitor.visit(this);
-    }
+public record AtomLiteral(Token token) implements Expr {
 
     @Override
     public Type type() {
         return Atom.class;
     }
 
-    public String value() {
+    public String atom() {
         return token.value();
     }
 }

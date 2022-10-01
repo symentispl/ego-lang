@@ -15,6 +15,8 @@
  */
 package segfault.ego.interpreter;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import segfault.ego.lexer.Lexer;
@@ -23,92 +25,94 @@ import segfault.ego.parser.GlobalScope;
 import segfault.ego.parser.Parser;
 import segfault.ego.types.None;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-public class InterpreterTest
-{
+@Disabled
+public class InterpreterTest {
 
     @Test
     @Disabled
     public void eval_val_print() {
         var builtInScope = new BuiltInScope();
-        var globalScope = new GlobalScope( builtInScope );
-        var interpreter = new Interpreter( GlobalContext.defaulGlobalContext( globalScope ), new Lexer(), new Parser( globalScope ) );
-        var result = interpreter.eval( """
+        var globalScope = new GlobalScope(builtInScope);
+        var interpreter = new Interpreter(globalScope, new Lexer(), new Parser());
+        var result = interpreter.eval(
+                """
                                                ((val a "Hello")
                                                (print a))
-                                               """ );
-        assertThat( result ).isEqualTo( None.none );
+                                               """);
+        assertThat(result).isEqualTo(None.none);
     }
 
     @Test
     public void eval_val() {
         var builtInScope = new BuiltInScope();
-        var globalScope = new GlobalScope( builtInScope );
-        var interpreter = new Interpreter( GlobalContext.defaulGlobalContext( globalScope ), new Lexer(), new Parser( globalScope ) );
-        var result = interpreter.eval( """
+        var globalScope = new GlobalScope(builtInScope);
+        var interpreter = new Interpreter(globalScope, new Lexer(), new Parser());
+        var result = interpreter.eval(
+                """
                                                ((val a "Hello")
                                                 a)
-                                               """ );
-        assertThat( result ).asList().containsOnly( "Hello", "Hello" );
+                                               """);
+        assertThat(result).asList().containsOnly("Hello", "Hello");
     }
 
     @Test
     public void eval_string_concat() {
         var builtInScope = new BuiltInScope();
-        var globalScope = new GlobalScope( builtInScope );
-        var interpreter = new Interpreter( GlobalContext.defaulGlobalContext( globalScope ), new Lexer(), new Parser( globalScope ) );
-        var result = interpreter.eval( """
+        var globalScope = new GlobalScope(builtInScope);
+        var interpreter = new Interpreter(globalScope, new Lexer(), new Parser());
+        var result = interpreter.eval(
+                """
                                                (+ "Hello " "Wiktor"))
-                                               """ );
-        assertThat( result ).isEqualTo( "Hello Wiktor" );
+                                               """);
+        assertThat(result).isEqualTo("Hello Wiktor");
     }
-
 
     @Test
     public void eval_lambda() {
         var builtInScope = new BuiltInScope();
-        var globalScope = new GlobalScope( builtInScope );
-        var interpreter = new Interpreter( GlobalContext.defaulGlobalContext( globalScope ), new Lexer(), new Parser( globalScope ) );
-        var result = interpreter.eval( """
+        var globalScope = new GlobalScope(builtInScope);
+        var interpreter = new Interpreter(globalScope, new Lexer(), new Parser());
+        var result = interpreter.eval(
+                """
                                                (val greet2 (lambda ((name String)) (returns String) (+ "Hello " name) ))
-                                               """ );
+                                               """);
         result = interpreter.eval("""
-                       (greet2 "Jarek")""");
-        assertThat( result ).isEqualTo( "Hello Jarek" );
+                                           (greet2 "Jarek")""");
+        assertThat(result).isEqualTo("Hello Jarek");
     }
 
     @Test
     public void fun_decl() {
         var builtInScope = new BuiltInScope();
-        var globalScope = new GlobalScope( builtInScope );
-        var interpreter = new Interpreter( GlobalContext.defaulGlobalContext( globalScope ), new Lexer(), new Parser( globalScope ) );
-        var result = interpreter.eval( """
+        var globalScope = new GlobalScope(builtInScope);
+        var interpreter = new Interpreter(globalScope, new Lexer(), new Parser());
+        var result = interpreter.eval(
+                """
                                                (fun greet2  ((name String)) (returns String) (+ "Hello " name) )
-                                               """ );
+                                               """);
         result = interpreter.eval("""
-                       (greet2 "Jarek")""");
-        assertThat( result ).isEqualTo( "Hello Jarek" );
+                                           (greet2 "Jarek")""");
+        assertThat(result).isEqualTo("Hello Jarek");
     }
 
     @Test
     @Disabled
     public void inline_lambda() {
         var builtInScope = new BuiltInScope();
-        var globalScope = new GlobalScope( builtInScope );
-        var interpreter = new Interpreter( GlobalContext.defaulGlobalContext( globalScope ), new Lexer(), new Parser( globalScope ) );
-        var result = interpreter.eval( """
-                                            (
-                                                (lambda 
-                                                    ((name String)) (returns String)
-                                                    (+ "Hello " name)
-                                                )
+        var globalScope = new GlobalScope(builtInScope);
+        var interpreter = new Interpreter(globalScope, new Lexer(), new Parser());
+        var result = interpreter.eval(
+                """
+                                               (
+                                                   (lambda
+                                                       ((name String)) (returns String)
+                                                       (+ "Hello " name)
+                                                   )
 
-                                                "Jarek"
-                                            )
-                                               """ );
+                                                   "Jarek"
+                                               )
+                                                  """);
         System.out.println(result);
-        assertThat( result ).isEqualTo( "Hello Jarek" );
+        assertThat(result).isEqualTo("Hello Jarek");
     }
-
 }

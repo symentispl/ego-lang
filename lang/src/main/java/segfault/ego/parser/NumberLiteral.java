@@ -16,19 +16,16 @@
 package segfault.ego.parser;
 
 import java.lang.reflect.Type;
-
 import segfault.ego.lexer.Token;
 
-public record NumberLiteral(Token token) implements Expr<Visitor> {
+public record NumberLiteral(Token token) implements Expr {
 
     @Override
     public Type type() {
         return Number.class;
     }
 
-    @Override
-    public void accept(Visitor visitor) {
-        visitor.visit(this);
+    public Long number() {
+        return Long.valueOf(token.value());
     }
-
 }

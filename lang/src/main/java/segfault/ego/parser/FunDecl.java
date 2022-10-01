@@ -16,18 +16,12 @@
 package segfault.ego.parser;
 
 import java.lang.reflect.Type;
-
 import segfault.ego.symbols.FunctionSymbol;
 
-public record FunDecl(FunctionSymbol symbol , Expr body) implements Expr<RewriteVisitor> {
-    @Override
-    public void accept(RewriteVisitor visitor) {
-        visitor.visit(this);
-    }
+public record FunDecl(FunctionSymbol symbol, Expr body) implements Expr {
 
     @Override
     public Type type() {
         return symbol.type();
     }
-
 }

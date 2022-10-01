@@ -15,20 +15,13 @@
  */
 package segfault.ego.parser;
 
-public interface RewriteVisitor extends Visitor
-{
-    void visit( FunCall funCall );
+public interface SexprAlg<L, A, N, S> {
 
-    void visit( ValDecl valDecl );
+    L listLiteral(ListLiteral literal);
 
-    void visit( ObjectLiteral objectLiteral);
+    A atomLiteral(AtomLiteral a);
 
-    void visit( ObjectMember field);
+    N numberLiteral(NumberLiteral n);
 
-    void visit( FunDecl funDecl);
-
-    void visit( Ref ref );
-
-    void visit( Lambda ref );
-
+    S stringLiteral(StringLiteral s);
 }

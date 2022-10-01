@@ -30,7 +30,7 @@
     <dependencies>
         <dependency>
             <groupId>segfault.ego</groupId>
-            <artifactId>repl</artifactId>
+            <artifactId>cli</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -72,7 +72,7 @@
                                 excluding automatic modules from dependencies, as they don't work with jlink,
                                 we will process it later with moditec plugin
                             -->
-                            <excludeArtifactIds>commons-collections4,commons-lang3,commons-io,jline</excludeArtifactIds>
+                            <excludeArtifactIds>commons-collections4,commons-lang3,commons-io,jline,javapoet</excludeArtifactIds>
                         </configuration>
                     </execution>
                 </executions>
@@ -123,7 +123,7 @@
                                     </artifact>
                                     <moduleInfoSource>
                                         module org.apache.commons.io {
-                                            exports org.apache.commons.io.input;
+                                        exports org.apache.commons.io.input;
                                         }
                                     </moduleInfoSource>
                                 </module>
@@ -143,6 +143,18 @@
                                         }
                                     </moduleInfoSource>
                                 </module>
+                                <module>
+                                    <artifact>
+                                        <groupId>com.squareup</groupId>
+                                        <artifactId>javapoet</artifactId>
+                                        <version>1.13.0</version>
+                                    </artifact>
+                                    <moduleInfoSource>
+                                        module com.squareup.javapoet {
+                                        }
+                                    </moduleInfoSource>
+                                </module>
+
                             </modules>
                         </configuration>
                     </execution>
@@ -159,11 +171,11 @@
                             </modulePath>
                             <jarInclusionPolicy>NONE</jarInclusionPolicy>
                             <modules>
-                                <module>segfault.ego.repl</module>
+                                <module>segfault.ego.cli</module>
                             </modules>
                             <launcher>
                                 <name>ego</name>
-                                <module>segfault.ego.repl</module>
+                                <module>segfault.ego.cli</module>
                             </launcher>
                             <outputDirectory>
                                 ${project.build.directory}/jlink-image

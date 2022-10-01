@@ -18,13 +18,13 @@ package segfault.ego.lexer;
 import static java.lang.Character.isDigit;
 import static java.lang.Character.isWhitespace;
 import static java.lang.String.format;
+import static segfault.ego.lexer.CharacterClasses.*;
 import static segfault.ego.lexer.Token.atom;
 import static segfault.ego.lexer.Token.closingBracket;
 import static segfault.ego.lexer.Token.eof;
 import static segfault.ego.lexer.Token.number;
 import static segfault.ego.lexer.Token.openingBracket;
 import static segfault.ego.lexer.Token.string;
-import static segfault.ego.lexer.CharacterClasses.*;
 
 import java.io.IOException;
 import java.io.PushbackReader;
@@ -90,7 +90,7 @@ public class Lexer {
                     int tmp = ch;
                     boolean isNumber = false; // before dot
                     boolean isDecimal = false; // after dot
-                    if(isSign(tmp)){
+                    if (isSign(tmp)) {
                         buffer.appendCodePoint(tmp);
                         tmp = reader.read();
                     }
@@ -114,7 +114,7 @@ public class Lexer {
 
                     if (isNumber) {
                         char firstChar = buffer.charAt(0);
-                        if(CharacterClasses.isPositiveSign(firstChar)){
+                        if (CharacterClasses.isPositiveSign(firstChar)) {
                             buffer.deleteCharAt(0);
                         }
                         tokens.add(number(buffer.toString()));
@@ -148,5 +148,4 @@ public class Lexer {
         tokens.add(eof());
         return tokens;
     }
-
 }

@@ -16,17 +16,15 @@
 package segfault.ego.parser;
 
 import java.lang.reflect.Type;
-
 import segfault.ego.lexer.Token;
 
-public record StringLiteral(Token token) implements Expr<Visitor> {
-
-    @Override
-    public void accept(Visitor visitor) {
-        visitor.visit(this);
-    }
+public record StringLiteral(Token token) implements Expr {
 
     public Type type() {
         return String.class;
+    }
+
+    public String string() {
+        return "\"" + token.value() + "\"";
     }
 }
