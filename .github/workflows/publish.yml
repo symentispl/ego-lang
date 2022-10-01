@@ -4,9 +4,9 @@
 name: Publish release
 
 on:
-  pull_request:
+  push:
     tags:
-      - "v*"
+      - "v*.*"
 
 jobs:
   publish:
@@ -23,4 +23,5 @@ jobs:
       run: ./mvnw -B verify -PpublishRelease
     - name: Publish release
       uses: softprops/action-gh-release@v1
-      files:  bin/target/*.zip
+      with:
+        files:  bin/target/*.zip
