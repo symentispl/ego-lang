@@ -27,4 +27,4 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Prepare for release
-      run: ./mvnw -B -DignoreSnapshots=true release:prepare release:perform
+      run: ./mvnw -B -DignoreSnapshots=true release:prepare
