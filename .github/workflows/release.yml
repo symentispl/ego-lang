@@ -15,6 +15,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
+    - run: git config --local user.email "jaroslaw.palka@symentis.pl"
+    - run: git config --local user.name "Jarosław Pałka"
     - name: Set up JDK 17
       uses: actions/setup-java@v3
       with:
@@ -22,4 +24,4 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Prepare for release
-      run: ./mvnw -B -DignoreSnapshots=true release:prepare
+      run: ./mvnw -B -DignoreSnapshots=true release:prepare release:perform
