@@ -156,3 +156,5 @@ will work with strings
         (print "String is not empty))
 )
 ```
+
+(lambda ((: x Str)) (+ "Hello" x))
