@@ -38,7 +38,6 @@ public class InterpreterEgoAlg implements EgoAlg<List<?>, Atom, Number, String, 
 
     @Override
     public List<?> listLiteral(ListLiteral literal) {
-
         return literal.exprs().stream().map(this::eval).collect(toList());
     }
 

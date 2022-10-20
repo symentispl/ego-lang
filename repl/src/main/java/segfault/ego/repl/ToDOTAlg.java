@@ -22,39 +22,33 @@ import segfault.ego.parser.ListLiteral;
 import segfault.ego.parser.NumberLiteral;
 import segfault.ego.parser.StringLiteral;
 
-public class ToDOTAlg implements EgoAlg
-{
+public class ToDOTAlg implements EgoAlg {
     @Override
-    public Object funCall( FunCall funCall )
-    {
+    public Object funCall(FunCall funCall) {
         return null;
     }
 
     @Override
-    public Object listLiteral( ListLiteral literal )
-    {
+    public Object listLiteral(ListLiteral literal) {
         return null;
     }
 
     @Override
-    public Object atomLiteral( AtomLiteral a )
-    {
+    public Object atomLiteral(AtomLiteral a) {
         return null;
     }
 
     @Override
-    public Object numberLiteral( NumberLiteral n )
-    {
+    public Object numberLiteral(NumberLiteral n) {
         return null;
     }
 
     @Override
-    public Object stringLiteral( StringLiteral s )
-    {
+    public Object stringLiteral(StringLiteral s) {
         return null;
     }
 
-    public Object eval(){
+    public Object eval() {
         return null;
     }
 }
