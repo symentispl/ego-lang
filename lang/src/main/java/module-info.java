@@ -16,6 +16,6 @@
 module segfault.ego.lang {
     exports segfault.ego.lexer;
     exports segfault.ego.parser;
-    exports segfault.ego.interpreter;
     exports segfault.ego.types;
+    exports segfault.ego.symbols;
 }

@@ -16,6 +16,7 @@
 module segfault.ego.cli {
     requires segfault.ego.repl;
     requires segfault.ego.sourcegen;
+    requires segfault.ego.todot;
     requires com.github.rvesse.airline;
     requires org.apache.commons.io;
 

@@ -15,6 +15,7 @@
  */
 module segfault.ego.repl {
     requires segfault.ego.lang;
+    requires segfault.ego.interpreter;
     requires com.github.rvesse.airline;
     requires org.jline;
     requires org.apache.commons.io;

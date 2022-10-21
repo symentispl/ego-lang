@@ -13,20 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package segfault.ego.cli;
+module segfault.ego.todot {
+    requires segfault.ego.lang;
+    requires com.github.rvesse.airline;
 
-import com.github.rvesse.airline.annotations.Cli;
-import com.github.rvesse.airline.help.Help;
-import segfault.ego.repl.REPL;
-import segfault.ego.todot.ToDOT;
+    exports segfault.ego.todot;
 
-@Cli(
-        name = "ego",
-        defaultCommand = REPL.class,
-        commands = {ToDOT.class, Help.class})
-public class Main {
-    public static void main(String[] args) {
-        var command = new com.github.rvesse.airline.Cli<Runnable>(Main.class).parse(args);
-        command.run();
-    }
+    opens segfault.ego.todot to
+            com.github.rvesse.airline;
 }
