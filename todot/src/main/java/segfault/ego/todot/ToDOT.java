@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package segfault.ego.repl;
+package segfault.ego.todot;
 
 import static java.lang.String.format;
 import static java.lang.System.out;

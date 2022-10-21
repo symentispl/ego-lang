@@ -234,6 +234,8 @@
         <module>bin</module>
         <module>sourcegen</module>
         <module>cli</module>
+        <module>interpreter</module>
+        <module>todot</module>
     </modules>
 
     <repositories>

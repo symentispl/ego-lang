@@ -13,18 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package segfault.ego.repl;
+module segfault.ego.interpreter {
+    requires segfault.ego.lang;
 
-import com.github.rvesse.airline.annotations.Cli;
-import com.github.rvesse.airline.help.Help;
-
-@Cli(
-        name = "ego",
-        defaultCommand = REPL.class,
-        commands = {ToDOT.class, Help.class})
-public class Main {
-    public static void main(String[] args) {
-        var command = new com.github.rvesse.airline.Cli<Runnable>(Main.class).parse(args);
-        command.run();
-    }
+    exports segfault.ego.interpreter;
 }

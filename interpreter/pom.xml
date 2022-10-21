@@ -25,25 +25,24 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>repl</artifactId>
+    <artifactId>interpreter</artifactId>
 
     <dependencies>
         <dependency>
             <groupId>segfault.ego</groupId>
-            <artifactId>interpreter</artifactId>
+            <artifactId>lang</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.jline</groupId>
-            <artifactId>jline</artifactId>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.github.rvesse</groupId>
-            <artifactId>airline</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
+
 </project>
